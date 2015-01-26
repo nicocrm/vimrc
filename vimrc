@@ -9,6 +9,7 @@ filetype indent on
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let mapleader = ","
 set history=50
 set wildmenu "Turn on WiLd menu
 set ignorecase "Ignore case when searching
@@ -56,6 +57,10 @@ try
     set undofile
 catch
 endtry
+
+" Fuzzy Finder mappings
+map <Leader>b :FufBuffer<CR>
+map <Leader>f :FufFile<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
