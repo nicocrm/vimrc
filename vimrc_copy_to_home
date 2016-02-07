@@ -1,5 +1,5 @@
 " This file should be placed as $HOME/_vimrc
 
 
-source $HOME/vimfiles/vimrc
+source $HOME/.vim/vimrc
 
