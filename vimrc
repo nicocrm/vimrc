@@ -36,8 +36,11 @@ if has('gui_running')
   set lines=48 columns=125
 endif
 
-colo molokai
+" Color scheme
+" t_Co is needed for molokai in xterm
+set t_Co=256
 set bg=dark
+colo molokai
 
 syntax on
 
@@ -77,6 +80,8 @@ set tw=500
 set ai "Auto indent
 set si "Smart indet
 set wrap "Wrap lines
+" do not show preview window on complete
+set completeopt-=preview
 
 """"""""""""""""""""""""""""""
 " => Mappings
@@ -88,6 +93,9 @@ let mapleader = ","
 " Use jk for escape
 inoremap jk <esc>
 inoremap <esc> <nop>
+
+" Double slash for toggle comment
+nmap // gcc
 
 " Shortcut to edit the vimrc file and re-source it
 nnoremap <leader>ev :vsplit ~/.vim/vimrc<cr>
@@ -109,6 +117,16 @@ nmap <leader>h :bprevious<CR>
 " This replicates the idea of closing a tab
 nmap <leader>bq :bp <BAR> bd #<CR>
 
+" Remap split commands so they work vertically
+nnoremap  :vnew<cr>
+nnoremap  :vsplit #<cr>
+
+" Mappings used for window movement
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 
 """"""""""""""""""""""""""""""
 " => Plugin Variables
@@ -122,6 +140,12 @@ let g:CommandTTraverseSCM='pwd'
 " Show just the filename
 " let g:airline#extensions#tabline#fnamemod = ':t'
 let g:bufferline_echo = 1
+
+" If you prefer the Omni-Completion tip window to close when a selection is
+" made, these lines close it on movement in insert mode or when leaving
+" insert mode
+" autocmd CursorMovedI * if pumvisible() == 0|silent! pclose|endif
+" autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
 
 """"""""""""""""""""""""""""""
 " => Python section
