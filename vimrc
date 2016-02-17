@@ -5,12 +5,13 @@ execute pathogen#infect()
 filetype plugin on
 filetype indent on
 
+runtime macros/matchit.vim
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let mapleader = ","
 set history=50
 set wildmenu "Turn on WiLd menu
 set ignorecase "Ignore case when searching
@@ -28,13 +29,15 @@ set visualbell
 set ruler
 set showcmd
 set laststatus=2  " show status bar always
-colo molokai
-set bg=dark
 
 if has('gui_running')
   set guioptions-=T
+  set guioptions-=m
   set lines=48 columns=125
 endif
+
+colo molokai
+set bg=dark
 
 syntax on
 
@@ -64,8 +67,8 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set bs=2
 set expandtab
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 set smarttab
 
 set lbr
@@ -79,9 +82,45 @@ set wrap "Wrap lines
 " => Mappings
 """"""""""""""""""""""""""""""
 
-" NERDcommenter: use ctrl-/ for toggling comment
-nmap  <Plug>NERDCommenterToggle
+" Use , for leader
+let mapleader = ","
 
+" Use jk for escape
+inoremap jk <esc>
+inoremap <esc> <nop>
+
+" Shortcut to edit the vimrc file and re-source it
+nnoremap <leader>ev :vsplit ~/.vim/vimrc<cr>
+nnoremap <leader>sv :source ~/.vim/vimrc<cr>:q<cr>
+
+" Buffers
+
+" To open a new empty buffer
+" This replaces :tabnew which I used to bind to this mapping
+nmap <leader>T :enew<cr>
+
+" Move to the next buffer
+nmap <leader>l :bnext<CR>
+
+" Move to the previous buffer
+nmap <leader>h :bprevious<CR>
+
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+nmap <leader>bq :bp <BAR> bd #<CR>
+
+
+""""""""""""""""""""""""""""""
+" => Plugin Variables
+""""""""""""""""""""""""""""""
+" Command-T: use git for searches, but don't start from the SCM root
+let g:CommandTFileScanner='git'
+let g:CommandTTraverseSCM='pwd'
+
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 """"""""""""""""""""""""""""""
 " => Python section
@@ -107,24 +146,13 @@ au FileType python map <buffer> <leader>D ?def
 " (folding disabled right now)
 "au FileType javascript call JavaScriptFold()
 "au FileType javascript setl fen
-au FileType javascript setl nocindent
+"au FileType javascript setl nocindent
 
-au FileType javascript imap <c-t> console.log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
+"au FileType javascript imap <c-t> console.log();<esc>hi
+"au FileType javascript imap <c-a> alert();<esc>hi
 
 "au FileType javascript inoremap <buffer> $r return
 "au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
-
-function! JavaScriptFold()
-    setl foldmethod=syntax
-    setl foldlevelstart=1
-    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-    function! FoldText()
-    return substitute(getline(v:foldstart), '{.*', '{...}', '')
-    endfunction
-    setl foldtext=FoldText()
-endfunction
 
 
 """""""""""""""""""""""""""""
