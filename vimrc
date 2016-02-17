@@ -1,5 +1,6 @@
 set nocompatible
 
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 filetype plugin on
 filetype indent on
@@ -27,7 +28,7 @@ set visualbell
 set ruler
 set showcmd
 set laststatus=2  " show status bar always
-colo darkblue
+colo molokai
 set bg=dark
 
 if has('gui_running')
@@ -58,10 +59,6 @@ try
 catch
 endtry
 
-" Fuzzy Finder mappings
-map <Leader>b :FufBuffer<CR>
-map <Leader>f :FufFile<CR>
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -77,6 +74,13 @@ set tw=500
 set ai "Auto indent
 set si "Smart indet
 set wrap "Wrap lines
+
+""""""""""""""""""""""""""""""
+" => Mappings
+""""""""""""""""""""""""""""""
+
+" NERDcommenter: use ctrl-/ for toggling comment
+nmap  <Plug>NERDCommenterToggle
 
 
 """"""""""""""""""""""""""""""
