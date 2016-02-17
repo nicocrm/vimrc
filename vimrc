@@ -139,6 +139,10 @@ let g:CommandTTraverseSCM='pwd'
 " let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 " let g:airline#extensions#tabline#fnamemod = ':t'
+" Disable bufferline integration with VIM airline, since we already have it
+" in the command window
+let g:airline#extensions#bufferline#enabled = 0
+" Echo bufferline in the command line
 let g:bufferline_echo = 1
 
 " If you prefer the Omni-Completion tip window to close when a selection is
