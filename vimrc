@@ -118,9 +118,10 @@ let g:CommandTFileScanner='git'
 let g:CommandTTraverseSCM='pwd'
 
 " Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#fnamemod = ':t'
+let g:bufferline_echo = 1
 
 """"""""""""""""""""""""""""""
 " => Python section
