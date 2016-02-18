@@ -43,12 +43,6 @@
 [submodule "bundle/vim-airline-themes"]
 	path = bundle/vim-airline-themes
 	url = git@github.com:vim-airline/vim-airline-themes.git
-[submodule "bundle/vim-slime"]
-	path = bundle/vim-slime
-	url = git@github.com:jpalardy/vim-slime.git
-[submodule "bundle/vim-bufferline"]
-	path = bundle/vim-bufferline
-	url = git@github.com:bling/vim-bufferline.git
 [submodule "bundle/command-t"]
 	path = bundle/command-t
 	url = git@github.com:wincent/command-t.git
