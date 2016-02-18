@@ -16,6 +16,7 @@ set history=50
 set wildmenu "Turn on WiLd menu
 set ignorecase "Ignore case when searching
 set smartcase
+set number " show line numbers
 
 set hlsearch "Highlight search things
 
@@ -33,7 +34,9 @@ set laststatus=2  " show status bar always
 if has('gui_running')
   set guioptions-=T
   set guioptions-=m
-  set lines=48 columns=125
+  " lines / columns for default size, this is set in .gvimrc instead
+  " so that we can re-source vimrc with no ill effect
+" set lines=35 columns=150
 endif
 
 " Color scheme
@@ -52,6 +55,7 @@ set nobackup
 set nowb
 set noswapfile
 set autowrite
+set autoread
 
 "Persistent undo
 try
@@ -81,17 +85,18 @@ set ai "Auto indent
 set si "Smart indet
 set wrap "Wrap lines
 " do not show preview window on complete
-set completeopt-=preview
+" set completeopt-=preview
 
 """"""""""""""""""""""""""""""
 " => Mappings
 """"""""""""""""""""""""""""""
 
-" Use , for leader
-let mapleader = ","
+" Use space bar for leader
+let mapleader = " "
 
 " Use jk for escape
 inoremap jk <esc>
+inoremap kj <esc>
 inoremap <esc> <nop>
 
 " Double slash for toggle comment
@@ -99,7 +104,7 @@ nmap // gcc
 
 " Shortcut to edit the vimrc file and re-source it
 nnoremap <leader>ev :vsplit ~/.vim/vimrc<cr>
-nnoremap <leader>sv :source ~/.vim/vimrc<cr>:q<cr>
+nnoremap <leader>sv :w<cr>:source ~/.vim/vimrc<cr>:q<cr>
 
 " Buffers
 
@@ -134,22 +139,36 @@ nnoremap <C-l> <C-w>l
 " Command-T: use git for searches, but don't start from the SCM root
 let g:CommandTFileScanner='git'
 let g:CommandTTraverseSCM='pwd'
+let g:CommandTMaxFiles=100000
+" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " Enable the list of buffers
-" let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
-" let g:airline#extensions#tabline#fnamemod = ':t'
-" Disable bufferline integration with VIM airline, since we already have it
-" in the command window
-let g:airline#extensions#bufferline#enabled = 0
-" Echo bufferline in the command line
-let g:bufferline_echo = 1
+let g:airline#extensions#tabline#enabled = 1
+" Don't show buffer #, because we already show the index.
+" Show file name, not full path
+let g:airline#extensions#tabline#buffer_nr_show = 0
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
 
 " If you prefer the Omni-Completion tip window to close when a selection is
 " made, these lines close it on movement in insert mode or when leaving
 " insert mode
 " autocmd CursorMovedI * if pumvisible() == 0|silent! pclose|endif
 " autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
+"
+" Use tmux for Slime
+let g:slime_target = "tmux"
 
 """"""""""""""""""""""""""""""
 " => Python section
@@ -188,3 +207,5 @@ au FileType python map <buffer> <leader>D ?def
 " => PHP section
 """""""""""""""""""""""""""""
 
+au FileType php nnoremap <F5> :!php %<cr>
+au FileType php nnoremap <C-F5> :2,$ SlimeSend<cr>
