@@ -14,6 +14,7 @@ runtime macros/matchit.vim
 
 set history=50
 set wildmenu "Turn on WiLd menu
+set wildignore+=.git,*.exe,*.dll,*.so
 set ignorecase "Ignore case when searching
 set smartcase
 set number " show line numbers
@@ -30,6 +31,7 @@ set visualbell
 set ruler
 set showcmd
 set laststatus=2  " show status bar always
+set hidden    " allow hidden buffers
 
 if has('gui_running')
   set guioptions-=T
@@ -96,14 +98,32 @@ let mapleader = " "
 
 " Use jk for escape
 inoremap jk <esc>
-inoremap kj <esc>
+" Not sure about this one, it's a bit annoying because you can't
+" do a k at the end of a word
+"inoremap kj <esc>
 inoremap <esc> <nop>
+
+" Allow C-S to save from insert mode 
+inoremap <c-s> <c-o>:w<cr>
+
+" Quick movement in insert mode (not too sure about this one)
+inoremap OO <c-o>O
+
+inoremap {} {<cr>}<c-o>O
 
 " Double slash for toggle comment
 nmap // gcc
 
+" CoPy: Quick copy of the current buffer to system clipboard
+nnoremap <silent> <leader>cp gg"+yG``
+" ReFormat: Quick reindent of current buffer 
+nnoremap <silent> <leader>rf gg=G``
+
+" Mute Highlight: Use Alt+L to mute hl search
+nnoremap <silent> <M-l> :noh<cr><C-l>
+
 " Shortcut to edit the vimrc file and re-source it
-nnoremap <leader>ev :vsplit ~/.vim/vimrc<cr>
+nnoremap <leader>ev :tabedit ~/.vim/vimrc<cr>
 nnoremap <leader>sv :w<cr>:source ~/.vim/vimrc<cr>:q<cr>
 
 " Buffers
@@ -112,15 +132,9 @@ nnoremap <leader>sv :w<cr>:source ~/.vim/vimrc<cr>:q<cr>
 " This replaces :tabnew which I used to bind to this mapping
 nmap <leader>T :enew<cr>
 
-" Move to the next buffer
-nmap <leader>l :bnext<CR>
-
-" Move to the previous buffer
-nmap <leader>h :bprevious<CR>
-
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
-nmap <leader>bq :bp <BAR> bd #<CR>
+nmap <leader>BB :bp <BAR> bd #<CR>
 
 " Remap split commands so they work vertically
 nnoremap  :vnew<cr>
@@ -132,16 +146,47 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" Shortcut for duplicating a line
+nnoremap <C-d> :co .<cr>
+
+" leader + a, Alternate for ^6 - shorter stretch (although that is not too bad once the caps lock key
+" has been remapped to ctrl using setxkbmap -option ctrl:nocaps
+nnoremap <leader>a 
+
 
 """"""""""""""""""""""""""""""
-" => Plugin Variables
+" => Plugin Variables (and plugin-specific mappings)
 """"""""""""""""""""""""""""""
+"""""""""""""""
 " Command-T: use git for searches, but don't start from the SCM root
-let g:CommandTFileScanner='git'
-let g:CommandTTraverseSCM='pwd'
+" let g:CommandTFileScanner='git'
+" let g:CommandTTraverseSCM='pwd'
 let g:CommandTMaxFiles=100000
+nnoremap <leader>b :CommandTBuffer<cr>
 " let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" Sane Ignore For ctrlp
+" (should we add node_modules?)
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$',
+"   \ 'file': '\.exe$\|\.dll\|\.so$\|\.dat$'
+"   \ }
+let g:ctrlp_show_hidden = 1
+let g:ctrlp_max_files=100000
+"
+"""""""""""""""
+" NERDTree 
+nnoremap <leader>NT :NERDTree<cr>
 
+" netrw
+nnoremap <leader>ex :Explore
+nnoremap <leader>sx :Sex
+" to suppress banner
+let g:netrw_banner=0
+" to open file in previous window (default is to use same window)
+"let g:netrw_browse_split=4
+
+"""""""""""""""
+" VIM AIRLINE
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 " Don't show buffer #, because we already show the index.
@@ -161,14 +206,27 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 
-" If you prefer the Omni-Completion tip window to close when a selection is
-" made, these lines close it on movement in insert mode or when leaving
-" insert mode
-" autocmd CursorMovedI * if pumvisible() == 0|silent! pclose|endif
-" autocmd InsertLeave * if pumvisible() == 0|silent! pclose|endif
+"""""""""""""
+" Buf Explorer - use upper case letters so they don't conflict
+" with Command-T <leader>b mapping for buffer list
+" (which is generally more useful than buf explorer)
+nnoremap <leader>BE :BufExplorer<cr>
+nnoremap <leader>BT :ToggleBufExplorer<cr>
+nnoremap <leader>BS :BufExplorerHorizontalSplit<cr>
+nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
+
 "
 " Use tmux for Slime
 let g:slime_target = "tmux"
+
+" Set a prefix for VIM WordMotion, so we can keep using the 
+" standard VIM keys
+let g:wordmotion_prefix = ","
+
+""""""""""""""
+" Vim Notes - note taking in VIM
+" (see also nicnote.vim which has some mappings)
+let g:notes_directories = ['~/Dropbox/Documents/Notes']
 
 """"""""""""""""""""""""""""""
 " => Python section
@@ -204,8 +262,7 @@ au FileType python map <buffer> <leader>D ?def
 
 
 """""""""""""""""""""""""""""
-" => PHP section
+" => XML
 """""""""""""""""""""""""""""
-
-au FileType php nnoremap <F5> :!php %<cr>
-au FileType php nnoremap <C-F5> :2,$ SlimeSend<cr>
+" Set up xmllint to run for = indentation
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
