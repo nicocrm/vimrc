@@ -180,8 +180,8 @@ nnoremap <leader>NT :NERDTree<cr>
 " netrw
 nnoremap <leader>ex :Explore
 nnoremap <leader>sx :Sex
-" to suppress banner
-let g:netrw_banner=0
+" to suppress banner, change to 0
+let g:netrw_banner=1
 " to open file in previous window (default is to use same window)
 "let g:netrw_browse_split=4
 
