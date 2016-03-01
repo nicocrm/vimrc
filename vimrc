@@ -114,8 +114,12 @@ inoremap {} {<cr>}<c-o>O
 " Double slash for toggle comment
 nmap // gcc
 
+" Change current directory to that of the file
+nnoremap <leader>cd :cd %:h<cr>
+nnoremap <leader>lcd :lcd %:h<cr>
+
 " CoPy: Quick copy of the current buffer to system clipboard
-nnoremap <silent> <leader>cp gg"+yG``
+nnoremap <silent> <leader>cp :1,$yank +<cr>
 " ReFormat: Quick reindent of current buffer 
 nnoremap <silent> <leader>rf gg=G``
 
@@ -159,19 +163,20 @@ nnoremap <leader>a 
 """"""""""""""""""""""""""""""
 """""""""""""""
 " Command-T: use git for searches, but don't start from the SCM root
+"  (I removed it and let it uses its default it generally works better and still is quite fast)
 " let g:CommandTFileScanner='git'
 " let g:CommandTTraverseSCM='pwd'
 let g:CommandTMaxFiles=100000
-nnoremap <leader>b :CommandTBuffer<cr>
+" nnoremap <leader>b :CommandTBuffer<cr>
 " let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" Sane Ignore For ctrlp
-" (should we add node_modules?)
-" let g:ctrlp_custom_ignore = {
-"   \ 'dir':  '\.git$\|\.hg$\|\.svn$\|\.yardoc\|public\/images\|public\/system\|data\|log\|tmp$',
-"   \ 'file': '\.exe$\|\.dll\|\.so$\|\.dat$'
-"   \ }
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_max_files=100000
+let g:CommandTSCMDirectories='.git,.idea,.svn'
+nnoremap <silent> <leader>pp :CtrlP<cr>
+nnoremap <silent> <leader>pr :CtrlPMRU<cr>
+nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
+nnoremap <silent> <leader>pm :CtrlPMixed<cr>
+nnoremap <silent> <C-p> :CtrlPLastMode<cr>
 "
 """""""""""""""
 " NERDTree 
@@ -228,41 +233,5 @@ let g:wordmotion_prefix = ","
 " (see also nicnote.vim which has some mappings)
 let g:notes_directories = ['~/Dropbox/Documents/Notes']
 
-""""""""""""""""""""""""""""""
-" => Python section
-""""""""""""""""""""""""""""""
-let python_highlight_all = 1
-au FileType python syn keyword pythonDecorator True None False self
-
-au BufNewFile,BufRead *.jinja set syntax=htmljinja
-au BufNewFile,BufRead *.mako set ft=mako
-
-au FileType python inoremap <buffer> $r return
-au FileType python inoremap <buffer> $i import
-au FileType python inoremap <buffer> $p print
-au FileType python inoremap <buffer> $f #--- PH ----------------------------------------------<esc>FP2xi
-au FileType python map <buffer> <leader>1 /class
-au FileType python map <buffer> <leader>2 /def
-au FileType python map <buffer> <leader>C ?class
-au FileType python map <buffer> <leader>D ?def
-
-""""""""""""""""""""""""""""""
-" => JavaScript section
-"""""""""""""""""""""""""""""""
-" (folding disabled right now)
-"au FileType javascript call JavaScriptFold()
-"au FileType javascript setl fen
-"au FileType javascript setl nocindent
-
-"au FileType javascript imap <c-t> console.log();<esc>hi
-"au FileType javascript imap <c-a> alert();<esc>hi
-
-"au FileType javascript inoremap <buffer> $r return
-"au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
 
 
-"""""""""""""""""""""""""""""
-" => XML
-"""""""""""""""""""""""""""""
-" Set up xmllint to run for = indentation
-au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null

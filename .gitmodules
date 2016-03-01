@@ -31,18 +31,12 @@
 [submodule "bundle/supertab"]
 	path = bundle/supertab
 	url = git@github.com:ervandew/supertab.git
-[submodule "bundle/tern_for_vim"]
-	path = bundle/tern_for_vim
-	url = https://github.com/ternjs/tern_for_vim.git
 [submodule "bundle/vim-airline"]
 	path = bundle/vim-airline
 	url = git@github.com:vim-airline/vim-airline.git
 [submodule "bundle/vim-airline-themes"]
 	path = bundle/vim-airline-themes
 	url = git@github.com:vim-airline/vim-airline-themes.git
-[submodule "bundle/command-t"]
-	path = bundle/command-t
-	url = git@github.com:wincent/command-t.git
 [submodule "bundle/vim-wordmotion"]
 	path = bundle/vim-wordmotion
 	url = git@github.com:chaoren/vim-wordmotion.git
