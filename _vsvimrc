@@ -5,11 +5,10 @@
 """"""""""""""""""""""""""""""""""""""""
 " Basic options: {
 """"""""""""""""""""""""""""""""""""""""
-set number " show line numbers
-
 set hlsearch "Highlight search things
 
 set incsearch "Make search act like search in modern browsers
+set smartcase
 
 set magic "Set magic on, for regular expressions
 
@@ -51,6 +50,9 @@ nnoremap <silent> <M-l> :noh<cr><C-l>
 """"""""""""""""""""""""""""""""""""""""
 " ReSharper Specific Mappings: {
 """"""""""""""""""""""""""""""""""""""""
-nmap <C-]> :vsc 
+nmap <C-]> :vsc ReSharper.ReSharper_GoToDeclaration<cr>
+nmap <M-]> :vsc ReSharper.ReSharper_GoToImplementation<cr>
+nmap <C-o> :vsc ReSharper.ReSharper_NavigateBackward<cr>
+nmap <C-i> :vsc ReSharper.ReSharper_NavigateForward<cr>
 """"""""""""""""""""""""""""""""""""""""
 " }
