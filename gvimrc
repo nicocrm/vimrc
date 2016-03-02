@@ -1,4 +1,5 @@
 " Gvim specific settings
+" (this needs to be linked or copied to ~/.gvimrc)
 "
 " Set a default size
 set lines=35 columns=150

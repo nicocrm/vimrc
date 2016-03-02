@@ -2,3 +2,5 @@
 
 
 source $HOME/vimfiles/vimrc
+
+set guifont=Consolas:h10
