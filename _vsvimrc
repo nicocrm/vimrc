@@ -8,7 +8,7 @@
 set hlsearch "Highlight search things
 
 set incsearch "Make search act like search in modern browsers
-set smartcase
+set ignorecase  " Note SmartCase does not work on vsvim
 
 set magic "Set magic on, for regular expressions
 
