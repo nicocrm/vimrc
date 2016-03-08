@@ -39,7 +39,7 @@ inoremap {} {<cr>}<c-o>O
 " CoPy: Quick copy of the current buffer to system clipboard
 nnoremap <silent> <leader>cp :1,$yank +<cr>
 " ReFormat: Quick reindent of current buffer 
-nnoremap <silent> <leader>rf gg=G``
+nnoremap <silent> <leader>rf mzgg=G`z
 
 " Mute Highlight: Use Alt+L to mute hl search
 nnoremap <silent> <M-l> :noh<cr><C-l>
