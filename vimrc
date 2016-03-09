@@ -1,3 +1,11 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" V I M !
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Initialize plugins {{{
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 set nocompatible
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
@@ -7,9 +15,9 @@ filetype indent on
 
 runtime macros/matchit.vim
 
+" }}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
+" VIM user interface {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set history=50
@@ -39,18 +47,23 @@ if has('gui_running')
   " lines / columns for default size, this is set in .gvimrc instead
   " so that we can re-source vimrc with no ill effect
 " set lines=35 columns=150
+else
+  let g:solarized_termcolors=256
 endif
 
 " Color scheme
 " t_Co is needed for molokai in xterm
 set t_Co=256
+"colo molokai
+colo solarized
+call togglebg#map("<F5>")
 set bg=dark
-colo molokai
 
 syntax on
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
+" }}}
+
+" Files, backups and undo {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git anyway...
 set nobackup
@@ -71,8 +84,9 @@ try
 catch
 endtry
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
+" }}}
+
+" Text, tab and indent related {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set bs=2
 set expandtab
@@ -88,9 +102,10 @@ set si "Smart indet
 set wrap "Wrap lines
 " do not show preview window on complete
 " set completeopt-=preview
+"
+" }}}
 
-""""""""""""""""""""""""""""""
-" => Mappings
+" Mappings {{{
 """"""""""""""""""""""""""""""
 
 " Use space bar for leader
@@ -123,8 +138,8 @@ nnoremap <silent> <leader>cp :1,$yank +<cr>
 " ReFormat: Quick reindent of current buffer 
 nnoremap <silent> <leader>rf gg=G``
 
-" Mute Highlight: Use Alt+L to mute hl search
-nnoremap <silent> <M-l> :noh<cr><C-l>
+" Mute Highlight: Use Alt+L to mute hl search (does not work in term)
+nnoremap <silent> <M-l> :nohlsearch<cr><C-l>
 
 " Shortcut to edit the vimrc file and re-source it
 nnoremap <leader>ev :tabedit ~/.vim/vimrc<cr>
@@ -157,21 +172,25 @@ nnoremap <C-d> :co .<cr>
 " has been remapped to ctrl using setxkbmap -option ctrl:nocaps
 nnoremap <leader>a 
 
+" }}}
 
-""""""""""""""""""""""""""""""
-" => Plugin Variables (and plugin-specific mappings)
+" Plugin Variables (and plugin-specific mappings) {{{
 """"""""""""""""""""""""""""""
 """""""""""""""
 " Command-T: use git for searches, but don't start from the SCM root
 "  (I removed it and let it uses its default it generally works better and still is quite fast)
 " let g:CommandTFileScanner='git'
 " let g:CommandTTraverseSCM='pwd'
-let g:CommandTMaxFiles=100000
+" let g:CommandTMaxFiles=100000
+" let g:CommandTSCMDirectories='.git,.idea,.svn'
 " nnoremap <leader>b :CommandTBuffer<cr>
+
+"""""""""""""""
+" CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
 " let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_root_markers = ['.idea']
 let g:ctrlp_max_files=100000
-let g:CommandTSCMDirectories='.git,.idea,.svn'
 nnoremap <silent> <leader>pp :CtrlP<cr>
 nnoremap <silent> <leader>pr :CtrlPMRU<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
@@ -179,8 +198,8 @@ nnoremap <silent> <leader>pm :CtrlPMixed<cr>
 nnoremap <silent> <C-p> :CtrlPLastMode<cr>
 "
 """""""""""""""
-" NERDTree 
-nnoremap <leader>NT :NERDTree<cr>
+" NERDTree (no longer using, as NETRW is generally good enough and less annoying)
+" nnoremap <leader>NT :NERDTree<cr>
 
 " netrw
 nnoremap <leader>ex :Explore
@@ -189,6 +208,11 @@ nnoremap <leader>sx :Sex
 let g:netrw_banner=1
 " to open file in previous window (default is to use same window)
 "let g:netrw_browse_split=4
+
+"""""""""""""""
+" SPARKUP 
+" Replace default <C-n> mapping to avoid interfering with VIM completion
+let g:sparkupNextMapping = '<c-f>'
 
 """""""""""""""
 " VIM AIRLINE
@@ -215,14 +239,10 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 " Buf Explorer - use upper case letters so they don't conflict
 " with Command-T <leader>b mapping for buffer list
 " (which is generally more useful than buf explorer)
-nnoremap <leader>BE :BufExplorer<cr>
-nnoremap <leader>BT :ToggleBufExplorer<cr>
-nnoremap <leader>BS :BufExplorerHorizontalSplit<cr>
-nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
-
-"
-" Use tmux for Slime
-let g:slime_target = "tmux"
+" nnoremap <leader>BE :BufExplorer<cr>
+" nnoremap <leader>BT :ToggleBufExplorer<cr>
+" nnoremap <leader>BS :BufExplorerHorizontalSplit<cr>
+" nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
 
 " Set a prefix for VIM WordMotion, so we can keep using the 
 " standard VIM keys
@@ -233,5 +253,7 @@ let g:wordmotion_prefix = ","
 " (see also nicnote.vim which has some mappings)
 let g:notes_directories = ['~/Dropbox/Documents/Notes']
 
+" }}}
 
 
+" vim: fdm=marker:ts=2:sw=2
