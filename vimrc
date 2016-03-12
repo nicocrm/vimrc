@@ -122,7 +122,7 @@ inoremap <esc> <nop>
 inoremap <c-s> <c-o>:w<cr>
 
 " Quick movement in insert mode (not too sure about this one)
-inoremap OO <c-o>O
+"inoremap OO <c-o>O
 
 inoremap {} {<cr>}<c-o>O
 

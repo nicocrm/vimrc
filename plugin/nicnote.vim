@@ -3,7 +3,8 @@ nnoremap <silent> <leader>nns :call NicNoteNewScratch()<cr>
 nnoremap <silent> <leader>nnp :call NicNoteNewProgress()<cr>
 
 function! NicNoteView()
-    execute "NERDTree " g:note_directories[0]
+    let fn = g:notes_directories[0]
+    execute "Ex " . fn
 endfunction
 
 function! NicNoteNewScratch()
