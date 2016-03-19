@@ -22,7 +22,7 @@ runtime macros/matchit.vim
 
 set history=50
 set wildmenu "Turn on WiLd menu
-set wildignore+=.git,*.exe,*.dll,*.so
+set wildignore+=.git,*.exe,*.dll,*.so,node_modules,.meteor,*.map
 set ignorecase "Ignore case when searching
 set smartcase
 set number " show line numbers
@@ -35,11 +35,12 @@ set magic "Set magic on, for regular expressions
 
 set showmatch "Show matching bracets when text indicator is over them
 set mat=2 "How many tenths of a second to blink
-set visualbell 
+set visualbell
 set ruler
 set showcmd
 set laststatus=2  " show status bar always
 set hidden    " allow hidden buffers
+set foldlevel=5   " open folds by default, up to 5 levels
 
 if has('gui_running')
   set guioptions-=T
@@ -71,6 +72,7 @@ set nowb
 set noswapfile
 set autowrite
 set autoread
+set tags=./tags;
 
 "Persistent undo
 try
@@ -118,13 +120,14 @@ inoremap jk <esc>
 "inoremap kj <esc>
 inoremap <esc> <nop>
 
-" Allow C-S to save from insert mode 
+" Allow C-S to save from insert mode
 inoremap <c-s> <c-o>:w<cr>
 
 " Quick movement in insert mode (not too sure about this one)
 "inoremap OO <c-o>O
 
-inoremap {} {<cr>}<c-o>O
+" inoremap {} {<cr>}<c-o>O
+" inoremap ({} ({<cr>})<c-o>O
 
 " Double slash for toggle comment
 nmap // gcc
@@ -135,10 +138,11 @@ nnoremap <leader>lcd :lcd %:h<cr>
 
 " CoPy: Quick copy of the current buffer to system clipboard
 nnoremap <silent> <leader>cp :1,$yank +<cr>
-" ReFormat: Quick reindent of current buffer 
+" ReFormat: Quick reindent of current buffer
 nnoremap <silent> <leader>rf gg=G``
 
 " Mute Highlight: Use Alt+L to mute hl search (does not work in term)
+" This also does a redraw (useful since I remapped C-l)
 nnoremap <silent> <M-l> :nohlsearch<cr><C-l>
 
 " Shortcut to edit the vimrc file and re-source it
@@ -154,6 +158,12 @@ nmap <leader>T :enew<cr>
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
 nmap <leader>BB :bp <BAR> bd #<CR>
+nmap <leader>B! :bp <BAR> bd! #<CR>
+
+" Closing tabs
+nmap <leader>TT :tabclose<cr>
+nmap <leader>T! :tabclose!<cr>
+nmap <leader>TO :tabonly<cr>
 
 " Remap split commands so they work vertically
 nnoremap  :vnew<cr>
@@ -165,12 +175,10 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" Mappings for
+
 " Shortcut for duplicating a line
 nnoremap <C-d> :co .<cr>
-
-" leader + a, Alternate for ^6 - shorter stretch (although that is not too bad once the caps lock key
-" has been remapped to ctrl using setxkbmap -option ctrl:nocaps
-nnoremap <leader>a 
 
 " }}}
 
@@ -181,21 +189,30 @@ nnoremap <leader>a 
 "  (I removed it and let it uses its default it generally works better and still is quite fast)
 " let g:CommandTFileScanner='git'
 " let g:CommandTTraverseSCM='pwd'
-" let g:CommandTMaxFiles=100000
-" let g:CommandTSCMDirectories='.git,.idea,.svn'
-" nnoremap <leader>b :CommandTBuffer<cr>
+let g:CommandTMaxFiles=100000
+let g:CommandTSCMDirectories='.git,.idea,.svn'
+" allow Alt-T as alternate mapping
+nnoremap <silent> <M-t> :CommandT<cr>
+" nnoremap <silent> <leader>tt :CommandT<cr>
+" nnoremap <silent> <leader>tb :CommandTBuffer<cr>
+" Alt-R Buffer jump in MRU order, not sure I like that yet
+nnoremap <silent> <M-r> :CommandTMRU<cr>
 
 """""""""""""""
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
+" OK I went BACK to Command-T because CtrlP has some annoying refresh issues
+" Might keep CtrlP just for Windows benefit
 " let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_root_markers = ['.idea']
-let g:ctrlp_max_files=100000
-nnoremap <silent> <leader>pp :CtrlP<cr>
-nnoremap <silent> <leader>pr :CtrlPMRU<cr>
-nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
-nnoremap <silent> <leader>pm :CtrlPMixed<cr>
-nnoremap <silent> <C-p> :CtrlPLastMode<cr>
+" let g:ctrlp_show_hidden = 1
+" let g:ctrlp_root_markers = ['.idea']
+" let g:ctrlp_max_files=100000
+" " No need for custom ignore because we are putting those in wildignore already
+" let g:ctrlp_custom_ignore='node_modules\|git\|.meteor'
+" nnoremap <silent> <leader>pp :CtrlP<cr>
+" nnoremap <silent> <leader>pr :CtrlPMRU<cr>
+" nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
+" nnoremap <silent> <leader>pm :CtrlPMixed<cr>
+" nnoremap <silent> <C-p> :CtrlPLastMode<cr>
 "
 """""""""""""""
 " NERDTree (no longer using, as NETRW is generally good enough and less annoying)
@@ -206,13 +223,19 @@ nnoremap <leader>ex :Explore
 nnoremap <leader>sx :Sex
 " to suppress banner, change to 0
 let g:netrw_banner=1
+" set current directory from netrw browse dir
+let g:netrw_keepdir=0
 " to open file in previous window (default is to use same window)
 "let g:netrw_browse_split=4
 
+autocmd FileType netrw setl bufhidden=delete
+
+
 """""""""""""""
-" SPARKUP 
+" SPARKUP
 " Replace default <C-n> mapping to avoid interfering with VIM completion
 let g:sparkupNextMapping = '<c-f>'
+let g:sparkupExecuteMapping = '<c-e>'
 
 """""""""""""""
 " VIM AIRLINE
@@ -239,12 +262,12 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 " Buf Explorer - use upper case letters so they don't conflict
 " with Command-T <leader>b mapping for buffer list
 " (which is generally more useful than buf explorer)
-" nnoremap <leader>BE :BufExplorer<cr>
-" nnoremap <leader>BT :ToggleBufExplorer<cr>
-" nnoremap <leader>BS :BufExplorerHorizontalSplit<cr>
-" nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
+nnoremap <leader>BE :BufExplorer<cr>
+nnoremap <leader>BT :ToggleBufExplorer<cr>
+nnoremap <leader>BS :BufExplorerHorizontalSplit<cr>
+nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
 
-" Set a prefix for VIM WordMotion, so we can keep using the 
+" Set a prefix for VIM WordMotion, so we can keep using the
 " standard VIM keys
 let g:wordmotion_prefix = ","
 
@@ -252,6 +275,17 @@ let g:wordmotion_prefix = ","
 " Vim Notes - note taking in VIM
 " (see also nicnote.vim which has some mappings)
 let g:notes_directories = ['~/Dropbox/Documents/Notes']
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiZnipsJumpForwardTrigger="<c-j>"
+let g:UltiZnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsEditSplit="vertical"
+" prevent recursive mapping on standard c-x c-k (completion)
+inoremap <c-x><c-k> <c-x><c-k>
+
+" Sessions
+let g:session_autosave = 'no'
 
 " }}}
 

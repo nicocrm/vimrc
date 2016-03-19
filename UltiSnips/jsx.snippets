@@ -1,0 +1,127 @@
+
+priority -50
+
+###########################################################################
+#                            TextMate Snippets                            #
+###########################################################################
+snippet rcc "React.createClass"
+/**
+ * <$1 />
+ */
+$1 = React.createClass({
+	render() {
+		return (
+			${0:<div>
+				$1
+			</div>}
+		)
+	}
+});
+endsnippet
+
+
+snippet cdm "componentDidMount"
+componentDidMount() {
+	$1
+},
+
+endsnippet
+
+snippet cdu "componentDidUpdate"
+componentDidUpdate() {
+	$1
+},
+
+endsnippet
+
+snippet gmd "getMeteorData"
+getMeteorData() {
+	return {
+		$1
+	};
+},
+
+endsnippet
+
+snippet gis "getInitialState"
+getInitialState() {
+	return {
+		$1
+	};
+},
+
+endsnippet
+
+snippet tss "this.setState"
+this.setState({
+	$1
+});
+endsnippet
+
+snippet pt "propTypes"
+propTypes: {
+	$1
+},
+
+endsnippet
+
+snippet rpt "React.propTypes"
+${1:propName}: React.PropTypes.${2:type}$0
+endsnippet
+
+snippet r( "Return jsx"
+return (
+	$1
+);$0
+endsnippet
+
+# Full size snippets (those are more templates
+# than snippets!)
+
+snippet rccmd "React.createClass, Meteor Data"
+/**
+ * <$1 />
+ * ${2:TODO: Short documentation}
+ */
+$1 = React.createClass({
+    // Component Setup {{{
+    mixins: [ReactMeteorData],
+    contextTypes: {
+        router: React.PropTypes.object.isRequired
+    },
+    // }}}
+
+    // Data {{{
+    getInitialState() {
+        return {
+        };
+    },
+
+    getMeteorData() {
+        var subs = [
+            Meteor.subscribe(''),
+        ];
+
+        return {
+            loadingSubs: !_.every(subs, c => c.ready())
+        };
+    },
+    // }}}
+
+	// Events {{{
+
+	// }}}
+
+	// Render {{{
+	render() {
+		return (
+			<div className=''>
+				$0
+			</div>
+		)
+	}
+	// }}}
+});
+
+// vim:fdm=marker
+endsnippet
