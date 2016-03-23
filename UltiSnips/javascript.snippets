@@ -8,14 +8,14 @@ priority -50
 
 snippet ({} "Object in parentheses" i
 ({
-	$0
+	$1
 });
 endsnippet
 
 snippet { "Opening / closing braces"
 {
 	$1
-}$0
+}
 endsnippet
 
 snippet {) "Opening / closing braces with parenthese"
@@ -46,6 +46,13 @@ ${1:method_name}(${3:}) {
 	${VISUAL}$0
 }${10:,
 }
+endsnippet
+
+snippet :m "Class method"
+${1:method_name}(${3:}) {
+	$4
+}
+
 endsnippet
 
 snippet f) "Function callback, with closing parenthese" w

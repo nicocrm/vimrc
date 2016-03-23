@@ -8,12 +8,55 @@
 
 set nocompatible
 
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-filetype plugin on
-filetype indent on
+call plug#begin('~/.vim/plugged')
 
-runtime macros/matchit.vim
+Plug 'tpope/vim-sensible'
+Plug 'rking/ag.vim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'chaoren/vim-wordmotion'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tomtom/tcomment_vim'
+Plug 'wesQ3/vim-windowswap'
+Plug 'SirVer/ultisnips'
+Plug 'jlanzarotta/bufexplorer'
+" emmett type plugin
+Plug 'rstacruz/sparkup'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+" Plug 'wavded/vim-stylus'
+" Very useful, includes text objects like "ii" for stuff at the current indent level
+Plug 'michaeljsmith/vim-indent-object'
+" Notes
+Plug 'xolox/vim-misc'
+Plug 'nicocrm/vim-notes'
+Plug 'xolox/vim-session'
+" Those are both similar, command-t generally works faster but is more of a pain to install
+" and doesn't work on neovim
+Plug 'wincent/command-t'
+Plug 'ctrlpvim/ctrlp.vim'
+" light weight file explorer
+Plug 'jeetsukumaran/vim-filebeagle'
+" AUtomatically insert matching parentheses, but it's usually more of a PIA than anythign else
+" Plug 'Raimondi/delimitMate'
+" PHP
+Plug 'captbaritone/better-indent-support-for-php-with-html'
+Plug 'shawncplus/phpcomplete.vim'
+" Coffee Script, not really doing any of that anymore
+" Plug 'kchmck/vim-coffee-script'
+" Plug 'mtscout6/vim-cjsx'
+
+call plug#end()
+
+" runtime bundle/vim-pathogen/autoload/pathogen.vim
+" execute pathogen#infect()
+" filetype plugin on
+" filetype indent on
+"
+" runtime macros/matchit.vim
 
 " }}}
 
@@ -55,10 +98,12 @@ endif
 " Color scheme
 " t_Co is needed for molokai in xterm
 set t_Co=256
-"colo molokai
-colo solarized
-call togglebg#map("<F5>")
+" Note when using molokai, bg should be before the color declaration
 set bg=dark
+" colo molokai
+colo distinguished
+" colo solarized
+" call togglebg#map("<F5>")
 
 syntax on
 
@@ -124,7 +169,7 @@ inoremap <esc> <nop>
 inoremap <c-s> <c-o>:w<cr>
 
 " Quick movement in insert mode (not too sure about this one)
-"inoremap OO <c-o>O
+inoremap OO <c-o>O
 
 " inoremap {} {<cr>}<c-o>O
 " inoremap ({} ({<cr>})<c-o>O
@@ -135,6 +180,8 @@ nmap // gcc
 " Change current directory to that of the file
 nnoremap <leader>cd :cd %:h<cr>
 nnoremap <leader>lcd :lcd %:h<cr>
+" This is like gf but will also edit a file that does not exist yet
+nnoremap <leader>gf :e <cfile><cr>
 
 " CoPy: Quick copy of the current buffer to system clipboard
 nnoremap <silent> <leader>cp :1,$yank +<cr>
@@ -175,7 +222,16 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Mappings for
+" Completion mappings (suggested in help ins-completion)
+" Tag completion
+inoremap <c-]> <c-x><c-]>
+" File name completion
+inoremap <c-f> <c-x><c-f>
+" Macro definition
+" TODO: need to come up with correct include and definition options for javascript
+inoremap <c-d> <c-x><c-d>
+" Line completion
+inoremap <c-l> <c-x><c-l>
 
 " Shortcut for duplicating a line
 nnoremap <C-d> :co .<cr>
@@ -202,17 +258,20 @@ nnoremap <silent> <M-r> :CommandTMRU<cr>
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
 " OK I went BACK to Command-T because CtrlP has some annoying refresh issues
 " Might keep CtrlP just for Windows benefit
-" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" let g:ctrlp_show_hidden = 1
-" let g:ctrlp_root_markers = ['.idea']
-" let g:ctrlp_max_files=100000
-" " No need for custom ignore because we are putting those in wildignore already
-" let g:ctrlp_custom_ignore='node_modules\|git\|.meteor'
-" nnoremap <silent> <leader>pp :CtrlP<cr>
-" nnoremap <silent> <leader>pr :CtrlPMRU<cr>
-" nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
-" nnoremap <silent> <leader>pm :CtrlPMixed<cr>
-" nnoremap <silent> <C-p> :CtrlPLastMode<cr>
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_show_hidden = 1
+" Custom root markers
+let g:ctrlp_root_markers = ['.idea']
+let g:ctrlp_max_files=100000
+" Use caching if > 1000 files
+let g:ctrlp_use_caching=1000
+" No need for custom ignore because we are putting those in wildignore already, but just in case
+let g:ctrlp_custom_ignore='node_modules\|git\|.meteor'
+nnoremap <silent> <leader>pp :CtrlP<cr>
+nnoremap <silent> <leader>pr :CtrlPMRU<cr>
+nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
+nnoremap <silent> <leader>pm :CtrlPMixed<cr>
+nnoremap <silent> <C-p> :CtrlPLastMode<cr>
 "
 """""""""""""""
 " NERDTree (no longer using, as NETRW is generally good enough and less annoying)
@@ -234,7 +293,7 @@ autocmd FileType netrw setl bufhidden=delete
 """""""""""""""
 " SPARKUP
 " Replace default <C-n> mapping to avoid interfering with VIM completion
-let g:sparkupNextMapping = '<c-f>'
+let g:sparkupNextMapping = '<c-d>'
 let g:sparkupExecuteMapping = '<c-e>'
 
 """""""""""""""
