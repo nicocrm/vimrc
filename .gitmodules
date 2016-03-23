@@ -52,9 +52,6 @@
 [submodule "bundle/vim-notes"]
 	path = bundle/vim-notes
 	url = git@github.com:nicocrm/vim-notes.git
-[submodule "bundle/vim-colors-solarized"]
-	path = bundle/vim-colors-solarized
-	url = git@github.com:altercation/vim-colors-solarized.git
 [submodule "bundle/vim-coffee-script"]
 	path = bundle/vim-coffee-script
 	url = git@github.com:kchmck/vim-coffee-script.git
@@ -76,3 +73,12 @@
 [submodule "bundle/vim-filebeagle"]
 	path = bundle/vim-filebeagle
 	url = git@github.com:jeetsukumaran/vim-filebeagle.git
+[submodule "bundle/vim-sensible"]
+	path = bundle/vim-sensible
+	url = git@github.com:tpope/vim-sensible.git
+[submodule "bundle/delimitMate"]
+	path = bundle/delimitMate
+	url = git@github.com:Raimondi/delimitMate.git
+[submodule "bundle/better-indent-support-for-php-with-html"]
+	path = bundle/better-indent-support-for-php-with-html
+	url = git@github.com:captbaritone/better-indent-support-for-php-with-html.git
