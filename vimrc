@@ -69,6 +69,7 @@ set wildignore+=.git,*.exe,*.dll,*.so,node_modules,.meteor,*.map
 set ignorecase "Ignore case when searching
 set smartcase
 set number " show line numbers
+set autochdir " Automatically change to current file directory
 
 set hlsearch "Highlight search things
 
@@ -164,6 +165,9 @@ inoremap jk <esc>
 " do a k at the end of a word
 "inoremap kj <esc>
 inoremap <esc> <nop>
+" Use ctrl-J for return
+" (this mapping is temporary)
+inoremap <cr> <nop>
 
 " Allow C-S to save from insert mode
 inoremap <c-s> <c-o>:w<cr>
@@ -232,6 +236,7 @@ inoremap <c-f> <c-x><c-f>
 inoremap <c-d> <c-x><c-d>
 " Line completion
 inoremap <c-l> <c-x><c-l>
+" Should maybe bind C-X C-O (omni completion)?
 
 " Shortcut for duplicating a line
 nnoremap <C-d> :co .<cr>
@@ -337,8 +342,8 @@ let g:notes_directories = ['~/Dropbox/Documents/Notes']
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiZnipsJumpForwardTrigger="<c-j>"
-let g:UltiZnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-m>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"
 " prevent recursive mapping on standard c-x c-k (completion)
 inoremap <c-x><c-k> <c-x><c-k>

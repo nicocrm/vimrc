@@ -22,8 +22,27 @@ class $1 extends React.Component {
 export default $1;
 endsnippet
 
+snippet ir "Import React"
+import React from 'react';
+
+endsnippet
+
+snippet prc "Pure render component"
+${1:import React from 'react';
+}
+/**
+ * <$2 />
+ */
+const $2 = (props) => {
+	$3
+};
+
+${4:export default $2;}
+endsnippet
+
 snippet cis "Constructor with initial state"
 constructor() {
+	super();
 	this.state = {
 		$1
 	};
@@ -34,6 +53,34 @@ endsnippet
 
 snippet cdm "componentDidMount"
 componentDidMount() {
+	$1
+}
+
+endsnippet
+
+snippet cwu "componentWillUnmount"
+componentWillUnmount() {
+	$1
+}
+
+endsnippet
+
+snippet cwup "componentWillUpdate"
+componentWillUpdate() {
+	$1
+}
+
+endsnippet
+
+snippet scu "shouldComponentUpdate"
+shouldComponentUpdate() {
+	$1
+}
+
+endsnippet
+
+snippet cwrp "componentWillReceiveProps"
+componentWillReceiveProps() {
 	$1
 }
 
