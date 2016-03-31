@@ -93,6 +93,11 @@ if has('gui_running')
   " so that we can re-source vimrc with no ill effect
 " set lines=35 columns=150
 else
+  if has("x11")
+    let &t_SI = "\<Esc>[6 q"
+    let &t_SR = "\<Esc>[4 q"
+    let &t_EI = "\<Esc>[2 q"
+  endif
   let g:solarized_termcolors=256
 endif
 
@@ -167,7 +172,8 @@ inoremap jk <esc>
 inoremap <esc> <nop>
 " Use ctrl-J for return
 " (this mapping is temporary)
-inoremap <cr> <nop>
+" (remove this no longer necessary with new keyboard)
+"inoremap <cr> <nop>
 
 " Allow C-S to save from insert mode
 inoremap <c-s> <c-o>:w<cr>
