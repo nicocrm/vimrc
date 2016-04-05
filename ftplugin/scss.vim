@@ -1,0 +1,2 @@
+
+UltiSnipsAddFiletypes scss.braces

@@ -164,12 +164,13 @@ set wrap "Wrap lines
 " Use space bar for leader
 let mapleader = " "
 
-" Use jk for escape
-inoremap jk <esc>
-" Not sure about this one, it's a bit annoying because you can't
-" do a k at the end of a word
-"inoremap kj <esc>
+" Use jj for escape (try this instead of jk?)
+inoremap jj <esc>
+"inoremap jk <esc>
 inoremap <esc> <nop>
+" JJ for newlines?
+inoremap JJ <cr>
+
 " Use ctrl-J for return
 " (this mapping is temporary)
 " (remove this no longer necessary with new keyboard)
@@ -184,8 +185,11 @@ inoremap OO <c-o>O
 " inoremap {} {<cr>}<c-o>O
 " inoremap ({} ({<cr>})<c-o>O
 
-" Double slash for toggle comment
-nmap // gcc
+" Alt-slash for toggle comment
+" (I put alt instead of control because the C-/ mapping does not seem to work right)
+"nmap // gcc  " this one is annoying, it messes up my search prompt
+nmap <M-/> gcc
+nmap <C-/> gcc
 
 " Change current directory to that of the file
 nnoremap <leader>cd :cd %:h<cr>
