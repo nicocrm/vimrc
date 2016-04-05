@@ -27,7 +27,9 @@ set showcmd
 " Use space bar for leader
 let mapleader = " "
 
-inoremap jk <esc>
+"inoremap jk <esc>
+inoremap jj <esc>
+inoremap JJ <cr>
 
 " Allow C-S to save from insert mode 
 inoremap <c-s> <c-o>:w<cr>
@@ -35,7 +37,7 @@ inoremap <c-s> <c-o>:w<cr>
 " Quick movement in insert mode (not too sure about this one)
 inoremap OO <c-o>O
 
-inoremap {} {<cr>}<c-o>O
+"inoremap {} {<cr>}<c-o>O
 " CoPy: Quick copy of the current buffer to system clipboard
 nnoremap <silent> <leader>cp :1,$yank +<cr>
 " ReFormat: Quick reindent of current buffer 

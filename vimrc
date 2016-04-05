@@ -27,7 +27,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tomtom/tcomment_vim'
 Plug 'wesQ3/vim-windowswap'
-if !has('windows')
+if has('python')
   Plug 'SirVer/ultisnips'
 endif
 Plug 'jlanzarotta/bufexplorer'
