@@ -8,7 +8,13 @@
 
 set nocompatible
 
-call plug#begin('~/.vim/plugged')
+if has('windows')
+  let $VIMHOME = $HOME."/vimfiles"
+else
+  let $VIMHOME = $HOME."/.vim"
+endif
+
+call plug#begin('$VIMHOME/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'rking/ag.vim'
@@ -21,7 +27,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tomtom/tcomment_vim'
 Plug 'wesQ3/vim-windowswap'
-Plug 'SirVer/ultisnips'
+if !has('windows')
+  Plug 'SirVer/ultisnips'
+endif
 Plug 'jlanzarotta/bufexplorer'
 " emmett type plugin
 Plug 'rstacruz/sparkup'
