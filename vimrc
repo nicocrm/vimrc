@@ -8,7 +8,7 @@
 
 set nocompatible
 
-if has('windows')
+if has('win32')
   let $VIMHOME = $HOME."/vimfiles"
 else
   let $VIMHOME = $HOME."/.vim"
@@ -174,8 +174,6 @@ let mapleader = " "
 
 " Use jj for escape (try this instead of jk?)
 inoremap jj <esc>
-"inoremap jk <esc>
-inoremap <esc> <nop>
 " JJ for newlines?
 inoremap JJ <cr>
 
@@ -190,6 +188,10 @@ inoremap <c-s> <c-o>:w<cr>
 " Quick movement in insert mode (not too sure about this one)
 inoremap OO <c-o>O
 
+" select pasted selection
+nnoremap gp `[v`]
+
+" I tried those but it ends up being easier to use ultisnips for this type stuff
 " inoremap {} {<cr>}<c-o>O
 " inoremap ({} ({<cr>})<c-o>O
 
@@ -281,6 +283,7 @@ nnoremap <silent> <M-r> :CommandTMRU<cr>
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
 " OK I went BACK to Command-T because CtrlP has some annoying refresh issues
 " Might keep CtrlP just for Windows benefit
+" This command will use git when we are in a git repo, ignoring files listed in .gitignore
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_show_hidden = 1
 " Custom root markers
@@ -360,8 +363,8 @@ let g:notes_directories = ['~/Dropbox/Documents/Notes']
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-m>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 " prevent recursive mapping on standard c-x c-k (completion)
 inoremap <c-x><c-k> <c-x><c-k>
