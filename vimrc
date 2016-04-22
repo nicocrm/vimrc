@@ -158,8 +158,8 @@ set smarttab
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indet
+set autoindent "Auto indent
+set nosmartindent "Smart indet
 set wrap "Wrap lines
 " do not show preview window on complete
 " set completeopt-=preview
