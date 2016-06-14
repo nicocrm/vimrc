@@ -44,8 +44,13 @@ Plug 'nicocrm/vim-notes'
 Plug 'xolox/vim-session'
 " Those are both similar, command-t generally works faster but is more of a pain to install
 " and doesn't work on neovim
-Plug 'wincent/command-t'
+" Plug 'wincent/command-t'
 Plug 'ctrlpvim/ctrlp.vim'
+" Fuzzy finder does not work on Windows but is a lot faster than ctrl P and has more options
+if !has('win32')
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+endif
 " light weight file explorer
 Plug 'jeetsukumaran/vim-filebeagle'
 " AUtomatically insert matching parentheses, but it's usually more of a PIA than anythign else
@@ -56,6 +61,8 @@ Plug 'shawncplus/phpcomplete.vim'
 " Coffee Script, not really doing any of that anymore
 " Plug 'kchmck/vim-coffee-script'
 " Plug 'mtscout6/vim-cjsx'
+" Go Language plugin
+Plug 'fatih/vim-go'
 
 call plug#end()
 
@@ -93,6 +100,7 @@ set showcmd
 set laststatus=2  " show status bar always
 set hidden    " allow hidden buffers
 set foldlevel=5   " open folds by default, up to 5 levels
+" set clipboard=unnamed  " use default clipboard for yanking operations
 
 if has('gui_running')
   set guioptions-=T
@@ -273,11 +281,11 @@ nnoremap <C-d> :co .<cr>
 let g:CommandTMaxFiles=100000
 let g:CommandTSCMDirectories='.git,.idea,.svn'
 " allow Alt-T as alternate mapping
-nnoremap <silent> <M-t> :CommandT<cr>
+"nnoremap <silent> <M-t> :CommandT<cr>
 " nnoremap <silent> <leader>tt :CommandT<cr>
 " nnoremap <silent> <leader>tb :CommandTBuffer<cr>
 " Alt-R Buffer jump in MRU order, not sure I like that yet
-nnoremap <silent> <M-r> :CommandTMRU<cr>
+"nnoremap <silent> <M-r> :CommandTMRU<cr>
 
 """""""""""""""
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
@@ -287,7 +295,7 @@ nnoremap <silent> <M-r> :CommandTMRU<cr>
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_show_hidden = 1
 " Custom root markers
-let g:ctrlp_root_markers = ['.idea']
+" let g:ctrlp_root_markers = ['.idea']
 let g:ctrlp_max_files=100000
 " Use caching if > 1000 files
 let g:ctrlp_use_caching=1000
@@ -347,7 +355,7 @@ nmap <leader>+ <Plug>AirlineSelectNextTab
 " Buf Explorer - use upper case letters so they don't conflict
 " with Command-T <leader>b mapping for buffer list
 " (which is generally more useful than buf explorer)
-nnoremap <leader>BE :BufExplorer<cr>
+nnoremap <leader>b :BufExplorer<cr>
 nnoremap <leader>BT :ToggleBufExplorer<cr>
 nnoremap <leader>BS :BufExplorerHorizontalSplit<cr>
 nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
@@ -360,6 +368,7 @@ let g:wordmotion_prefix = ","
 " Vim Notes - note taking in VIM
 " (see also nicnote.vim which has some mappings)
 let g:notes_directories = ['~/Dropbox/Documents/Notes']
+let g:notes_smart_quotes = 0
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"

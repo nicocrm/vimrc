@@ -27,7 +27,7 @@ set showcmd
 " Use space bar for leader
 let mapleader = " "
 
-inoremap jk <esc>
+inoremap <C-c> <esc>
 
 " Allow using C-6 without pressing shift
 map <C-6> :e #<CR>
