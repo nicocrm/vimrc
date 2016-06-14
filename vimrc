@@ -41,7 +41,7 @@ Plug 'michaeljsmith/vim-indent-object'
 " Notes
 Plug 'xolox/vim-misc'
 Plug 'nicocrm/vim-notes'
-Plug 'xolox/vim-session'
+" Plug 'xolox/vim-session'
 " Those are both similar, command-t generally works faster but is more of a pain to install
 " and doesn't work on neovim
 " Plug 'wincent/command-t'
