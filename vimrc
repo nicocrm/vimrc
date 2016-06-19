@@ -44,7 +44,7 @@ Plug 'nicocrm/vim-notes'
 Plug 'xolox/vim-session'
 " Those are both similar, command-t generally works faster but is more of a pain to install
 " and doesn't work on neovim
-Plug 'wincent/command-t'
+" Plug 'wincent/command-t'
 Plug 'ctrlpvim/ctrlp.vim'
 " light weight file explorer
 Plug 'jeetsukumaran/vim-filebeagle'
