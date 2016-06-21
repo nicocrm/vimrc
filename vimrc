@@ -27,7 +27,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tomtom/tcomment_vim'
 Plug 'wesQ3/vim-windowswap'
-if has('python')
+if has('python3')
   Plug 'SirVer/ultisnips'
 endif
 Plug 'jlanzarotta/bufexplorer'
@@ -41,7 +41,8 @@ Plug 'michaeljsmith/vim-indent-object'
 " Notes
 Plug 'xolox/vim-misc'
 Plug 'nicocrm/vim-notes'
-Plug 'xolox/vim-session'
+" Vim-Session is neat but causes some issues on xterm.
+"Plug 'xolox/vim-session'
 " Those are both similar, command-t generally works faster but is more of a pain to install
 " and doesn't work on neovim
 " Plug 'wincent/command-t'
@@ -375,6 +376,7 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 " prevent recursive mapping on standard c-x c-k (completion)
 inoremap <c-x><c-k> <c-x><c-k>
 
