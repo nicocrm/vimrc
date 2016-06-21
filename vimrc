@@ -64,6 +64,14 @@ Plug 'shawncplus/phpcomplete.vim'
 " Plug 'mtscout6/vim-cjsx'
 " Go Language plugin
 Plug 'fatih/vim-go'
+" Completion, only on Neovim since it uses background processing
+if has('nvim')
+  function! DoRemote(arg)
+    UpdateRemotePlugins
+  endfunction
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+  Plug 'zchee/deoplete-go', { 'do': 'make' }
+endif
 
 call plug#end()
 
@@ -380,8 +388,13 @@ let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 " prevent recursive mapping on standard c-x c-k (completion)
 inoremap <c-x><c-k> <c-x><c-k>
 
-" Sessions
-let g:session_autosave = 'no'
+" Sessions (not using right now)
+" let g:session_autosave = 'no'
+
+" Enable deoplete
+let g:deoplete#enable_at_startup = 1
+" deoplete-go settings
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 
 " }}}
 
