@@ -111,6 +111,10 @@ set hidden    " allow hidden buffers
 set foldlevel=5   " open folds by default, up to 5 levels
 " set clipboard=unnamed  " use default clipboard for yanking operations
 
+" Use relative line numbers, but turn it off when focus is lost, so that we can see the error messages
+au FocusLost * set nornu
+au FocusGained * set rnu
+
 if has('gui_running')
   set guioptions-=T
   set guioptions-=m
@@ -310,11 +314,26 @@ let g:ctrlp_max_files=100000
 let g:ctrlp_use_caching=1000
 " No need for custom ignore because we are putting those in wildignore already, but just in case
 let g:ctrlp_custom_ignore='node_modules\|git\|.meteor'
+let g:ctrlp_cmd='CtrlPLastMode'
 nnoremap <silent> <leader>pp :CtrlP<cr>
 nnoremap <silent> <leader>pr :CtrlPMRU<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
 nnoremap <silent> <leader>pm :CtrlPMixed<cr>
-nnoremap <silent> <C-p> :CtrlPLastMode<cr>
+let g:ctrlp_open_single_match = ['buffer tags', 'buffers']
+
+fu! <SID>bufferUnderCursor()
+  try
+    let default_input_save = get(g:, 'ctrlp_default_input', '')
+    let g:ctrlp_default_input = expand('<cword>')
+    CtrlPBuffer
+  finally
+    if exists('default_input_save')
+      let g:ctrlp_default_input = default_input_save
+    endif
+  endtry
+endfu
+nnoremap <silent> <leader>p. :call <SID>bufferUnderCursor()<cr>
+
 "
 """""""""""""""
 " NERDTree (no longer using, as NETRW is generally good enough and less annoying)
