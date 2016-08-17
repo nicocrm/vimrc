@@ -27,7 +27,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tomtom/tcomment_vim'
 Plug 'wesQ3/vim-windowswap'
-if has('python')
+if has('python3') || has('python')
   Plug 'SirVer/ultisnips'
 endif
 Plug 'jlanzarotta/bufexplorer'
@@ -41,7 +41,8 @@ Plug 'michaeljsmith/vim-indent-object'
 " Notes
 Plug 'xolox/vim-misc'
 Plug 'nicocrm/vim-notes'
-" Plug 'xolox/vim-session'
+" Vim-Session is neat but causes some issues on xterm.
+"Plug 'xolox/vim-session'
 " Those are both similar, command-t generally works faster but is more of a pain to install
 " and doesn't work on neovim
 " Plug 'wincent/command-t'
@@ -63,6 +64,14 @@ Plug 'shawncplus/phpcomplete.vim'
 " Plug 'mtscout6/vim-cjsx'
 " Go Language plugin
 Plug 'fatih/vim-go'
+" Completion, only on Neovim since it uses background processing
+if has('nvim')
+  function! DoRemote(arg)
+    UpdateRemotePlugins
+  endfunction
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+  Plug 'zchee/deoplete-go', { 'do': 'make' }
+endif
 
 call plug#end()
 
@@ -101,6 +110,10 @@ set laststatus=2  " show status bar always
 set hidden    " allow hidden buffers
 set foldlevel=5   " open folds by default, up to 5 levels
 " set clipboard=unnamed  " use default clipboard for yanking operations
+
+" Use relative line numbers, but turn it off when focus is lost, so that we can see the error messages
+au FocusLost * set nornu
+au FocusGained * set rnu
 
 if has('gui_running')
   set guioptions-=T
@@ -301,11 +314,26 @@ let g:ctrlp_max_files=100000
 let g:ctrlp_use_caching=1000
 " No need for custom ignore because we are putting those in wildignore already, but just in case
 let g:ctrlp_custom_ignore='node_modules\|git\|.meteor'
+let g:ctrlp_cmd='CtrlPLastMode'
 nnoremap <silent> <leader>pp :CtrlP<cr>
 nnoremap <silent> <leader>pr :CtrlPMRU<cr>
 nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
 nnoremap <silent> <leader>pm :CtrlPMixed<cr>
-nnoremap <silent> <C-p> :CtrlPLastMode<cr>
+let g:ctrlp_open_single_match = ['buffer tags', 'buffers']
+
+fu! <SID>bufferUnderCursor()
+  try
+    let default_input_save = get(g:, 'ctrlp_default_input', '')
+    let g:ctrlp_default_input = expand('<cword>')
+    CtrlPBuffer
+  finally
+    if exists('default_input_save')
+      let g:ctrlp_default_input = default_input_save
+    endif
+  endtry
+endfu
+nnoremap <silent> <leader>p. :call <SID>bufferUnderCursor()<cr>
+
 "
 """""""""""""""
 " NERDTree (no longer using, as NETRW is generally good enough and less annoying)
@@ -375,11 +403,17 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 " prevent recursive mapping on standard c-x c-k (completion)
 inoremap <c-x><c-k> <c-x><c-k>
 
-" Sessions
-let g:session_autosave = 'no'
+" Sessions (not using right now)
+" let g:session_autosave = 'no'
+
+" Enable deoplete
+let g:deoplete#enable_at_startup = 1
+" deoplete-go settings
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 
 " }}}
 
