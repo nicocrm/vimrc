@@ -112,8 +112,8 @@ set foldlevel=5   " open folds by default, up to 5 levels
 " set clipboard=unnamed  " use default clipboard for yanking operations
 
 " Use relative line numbers, but turn it off when focus is lost, so that we can see the error messages
-au FocusLost * set nornu
-au FocusGained * set rnu
+" au FocusLost * set nornu
+" au FocusGained * set rnu
 
 if has('gui_running')
   set guioptions-=T
@@ -165,6 +165,7 @@ try
     set undofile
 catch
 endtry
+au FocusGained * checktime
 
 " }}}
 
@@ -414,6 +415,9 @@ inoremap <c-x><c-k> <c-x><c-k>
 let g:deoplete#enable_at_startup = 1
 " deoplete-go settings
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+
+" Use project root instead of current directory for Ag plugin
+let g:ag_working_path_mode='r'
 
 " }}}
 
