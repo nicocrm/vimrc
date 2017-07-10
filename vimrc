@@ -35,6 +35,7 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'rstacruz/sparkup'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
+Plug 'vim-syntastic/syntastic'
 " Plug 'wavded/vim-stylus'
 " Very useful, includes text objects like "ii" for stuff at the current indent level
 Plug 'michaeljsmith/vim-indent-object'
@@ -71,6 +72,7 @@ if has('nvim')
   endfunction
   Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
+  set mouse=a
 endif
 
 call plug#end()
@@ -123,6 +125,7 @@ if has('gui_running')
 " set lines=35 columns=150
 else
   if has("x11")
+    " this is for Vim - does not have any effect in neovim
     let &t_SI = "\<Esc>[6 q"
     let &t_SR = "\<Esc>[4 q"
     let &t_EI = "\<Esc>[2 q"
@@ -300,6 +303,24 @@ let g:CommandTSCMDirectories='.git,.idea,.svn'
 " nnoremap <silent> <leader>tb :CommandTBuffer<cr>
 " Alt-R Buffer jump in MRU order, not sure I like that yet
 "nnoremap <silent> <M-r> :CommandTMRU<cr>
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+" I turned off the automatic check by default because it was too annoying.
+" It will still check on write automatically
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+nnoremap <leader>ss :SyntasticCheck<cr>
+nnoremap <leader>se :Errors<cr>
+nnoremap <leader>sr :SyntasticReset<cr>
+nnoremap <leader>st :SyntasticToggleMode<cr>
 
 """""""""""""""
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
