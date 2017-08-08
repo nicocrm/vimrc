@@ -109,6 +109,7 @@ set visualbell
 set ruler
 set showcmd
 set laststatus=2  " show status bar always
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 set hidden    " allow hidden buffers
 set foldlevel=5   " open folds by default, up to 5 levels
 " set clipboard=unnamed  " use default clipboard for yanking operations
@@ -305,9 +306,6 @@ let g:CommandTSCMDirectories='.git,.idea,.svn'
 "nnoremap <silent> <M-r> :CommandTMRU<cr>
 
 " Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
