@@ -13,6 +13,8 @@ if has('win32')
 else
   let $VIMHOME = $HOME."/.vim"
 endif
+" Include custom plugins
+set runtimepath^=$VIMHOME/plugin
 
 call plug#begin('$VIMHOME/plugged')
 
@@ -305,6 +307,9 @@ let g:CommandTSCMDirectories='.git,.idea,.svn'
 " Alt-R Buffer jump in MRU order, not sure I like that yet
 "nnoremap <silent> <M-r> :CommandTMRU<cr>
 
+" For JSX indenting in JS files
+let g:jsx_ext_required = 0
+
 " Syntastic
 
 let g:syntastic_always_populate_loc_list = 1
@@ -381,23 +386,23 @@ let g:sparkupExecuteMapping = '<c-e>'
 """""""""""""""
 " VIM AIRLINE
 " Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Don't show buffer #, because we already show the index.
-" Show file name, not full path
-let g:airline#extensions#tabline#buffer_nr_show = 0
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
+" let g:airline#extensions#tabline#enabled = 1
+" " Don't show buffer #, because we already show the index.
+" " Show file name, not full path
+" let g:airline#extensions#tabline#buffer_nr_show = 0
+" let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
+" nmap <leader>1 <Plug>AirlineSelectTab1
+" nmap <leader>2 <Plug>AirlineSelectTab2
+" nmap <leader>3 <Plug>AirlineSelectTab3
+" nmap <leader>4 <Plug>AirlineSelectTab4
+" nmap <leader>5 <Plug>AirlineSelectTab5
+" nmap <leader>6 <Plug>AirlineSelectTab6
+" nmap <leader>7 <Plug>AirlineSelectTab7
+" nmap <leader>8 <Plug>AirlineSelectTab8
+" nmap <leader>9 <Plug>AirlineSelectTab9
+" nmap <leader>- <Plug>AirlineSelectPrevTab
+" nmap <leader>+ <Plug>AirlineSelectNextTab
 
 """""""""""""
 " Buf Explorer - use upper case letters so they don't conflict
