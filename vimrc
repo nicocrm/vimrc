@@ -177,13 +177,13 @@ au FocusGained * checktime
 
 " Text, tab and indent related {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set bs=2
+set backspace=indent,eol,start
 set expandtab
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set smarttab
 
-set lbr
+set linebreak   " break at sensible character
 set tw=500
 
 set autoindent "Auto indent
