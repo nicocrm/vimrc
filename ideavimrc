@@ -17,6 +17,8 @@ set showmatch "Show matching bracets when text indicator is over them
 set visualbell 
 set ruler
 set showcmd
+" emulate vim-surround
+set surround
 
 " }
 """"""""""""""""""""""""""""""""""""""""

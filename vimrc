@@ -13,6 +13,8 @@ if has('win32')
 else
   let $VIMHOME = $HOME."/.vim"
 endif
+" Include custom plugins
+set runtimepath^=$VIMHOME/plugin
 
 call plug#begin('$VIMHOME/plugged')
 
@@ -25,6 +27,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-projectionist'
 Plug 'tomtom/tcomment_vim'
 Plug 'wesQ3/vim-windowswap'
 if has('python3') || has('python')
@@ -35,6 +38,7 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'rstacruz/sparkup'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
+Plug 'vim-syntastic/syntastic'
 " Plug 'wavded/vim-stylus'
 " Very useful, includes text objects like "ii" for stuff at the current indent level
 Plug 'michaeljsmith/vim-indent-object'
@@ -71,6 +75,7 @@ if has('nvim')
   endfunction
   Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
+  set mouse=a
 endif
 
 call plug#end()
@@ -107,6 +112,7 @@ set visualbell
 set ruler
 set showcmd
 set laststatus=2  " show status bar always
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 set hidden    " allow hidden buffers
 set foldlevel=5   " open folds by default, up to 5 levels
 " set clipboard=unnamed  " use default clipboard for yanking operations
@@ -123,6 +129,7 @@ if has('gui_running')
 " set lines=35 columns=150
 else
   if has("x11")
+    " this is for Vim - does not have any effect in neovim
     let &t_SI = "\<Esc>[6 q"
     let &t_SR = "\<Esc>[4 q"
     let &t_EI = "\<Esc>[2 q"
@@ -171,13 +178,13 @@ au FocusGained * checktime
 
 " Text, tab and indent related {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set bs=2
+set backspace=indent,eol,start
 set expandtab
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set smarttab
 
-set lbr
+set linebreak   " break at sensible character
 set tw=500
 
 set autoindent "Auto indent
@@ -301,6 +308,24 @@ let g:CommandTSCMDirectories='.git,.idea,.svn'
 " Alt-R Buffer jump in MRU order, not sure I like that yet
 "nnoremap <silent> <M-r> :CommandTMRU<cr>
 
+" For JSX indenting in JS files
+let g:jsx_ext_required = 0
+
+" Syntastic
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+" I turned off the automatic check by default because it was too annoying.
+" It will still check on write automatically
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+nnoremap <leader>ss :SyntasticCheck<cr>
+nnoremap <leader>se :Errors<cr>
+nnoremap <leader>sr :SyntasticReset<cr>
+nnoremap <leader>st :SyntasticToggleMode<cr>
+
 """""""""""""""
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
 " OK I went BACK to Command-T because CtrlP has some annoying refresh issues
@@ -362,23 +387,23 @@ let g:sparkupExecuteMapping = '<c-e>'
 """""""""""""""
 " VIM AIRLINE
 " Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Don't show buffer #, because we already show the index.
-" Show file name, not full path
-let g:airline#extensions#tabline#buffer_nr_show = 0
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
+" let g:airline#extensions#tabline#enabled = 1
+" " Don't show buffer #, because we already show the index.
+" " Show file name, not full path
+" let g:airline#extensions#tabline#buffer_nr_show = 0
+" let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
+" nmap <leader>1 <Plug>AirlineSelectTab1
+" nmap <leader>2 <Plug>AirlineSelectTab2
+" nmap <leader>3 <Plug>AirlineSelectTab3
+" nmap <leader>4 <Plug>AirlineSelectTab4
+" nmap <leader>5 <Plug>AirlineSelectTab5
+" nmap <leader>6 <Plug>AirlineSelectTab6
+" nmap <leader>7 <Plug>AirlineSelectTab7
+" nmap <leader>8 <Plug>AirlineSelectTab8
+" nmap <leader>9 <Plug>AirlineSelectTab9
+" nmap <leader>- <Plug>AirlineSelectPrevTab
+" nmap <leader>+ <Plug>AirlineSelectNextTab
 
 """""""""""""
 " Buf Explorer - use upper case letters so they don't conflict
