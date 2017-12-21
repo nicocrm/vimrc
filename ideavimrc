@@ -8,9 +8,8 @@
 set hlsearch "Highlight search things
 
 set incsearch "Make search act like search in modern browsers
-            " This does not actually work in IdeaVIM.
-            " Best work around is to just use Ctrl+F
 set ignorecase  " Note SmartCase does not work on vsvim
+set surround    " enable vim-surround commands
 
 set magic "Set magic on, for regular expressions
 
@@ -32,6 +31,8 @@ set surround
 let mapleader = " "
 
 inoremap <C-c> <esc>
+inoremap <Menu> <esc>
+inoremap <F16> <esc>
 
 " Allow using C-6 without pressing shift
 map <C-6> :e #<CR>
