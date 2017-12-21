@@ -290,6 +290,12 @@ inoremap <c-l> <c-x><c-l>
 " Shortcut for duplicating a line
 nnoremap <C-d> :co .<cr>
 
+" Allow escape in terminal mode
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-v><Esc> <Esc>
+endif
+
 " }}}
 
 " Plugin Variables (and plugin-specific mappings) {{{
