@@ -68,6 +68,8 @@ Plug 'shawncplus/phpcomplete.vim'
 " Plug 'mtscout6/vim-cjsx'
 " Go Language plugin
 Plug 'fatih/vim-go'
+" LaTeX
+Plug 'lervag/vimtex'
 " Completion, only on Neovim since it uses background processing
 if has('nvim')
   function! DoRemote(arg)
