@@ -79,6 +79,7 @@ if has('nvim')
   Plug 'zchee/deoplete-go', { 'do': 'make' }
   set mouse=a
 endif
+Plug 'sbdchd/neoformat'
 
 call plug#end()
 
