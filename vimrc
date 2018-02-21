@@ -77,6 +77,7 @@ if has('nvim')
   endfunction
   Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
+  Plug 'mhartington/nvim-typescript'
   set mouse=a
 endif
 Plug 'sbdchd/neoformat'
@@ -454,6 +455,10 @@ if !exists('g:deoplete#omni#input_patterns')
     let g:deoplete#omni#input_patterns = {}
 endif
 let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
+" For debugging
+" let g:deoplete#enable_debug = 1
+" let g:deoplete#enable_profile = 1
+" call deoplete#enable_logging('DEBUG', '/PATH_TO/deoplete.log')<Paste>
 
 " Use project root instead of current directory for Ag plugin
 let g:ag_working_path_mode='r'
