@@ -449,6 +449,11 @@ inoremap <c-x><c-k> <c-x><c-k>
 let g:deoplete#enable_at_startup = 1
 " deoplete-go settings
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+" deoplete vimtex settings
+if !exists('g:deoplete#omni#input_patterns')
+    let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
 
 " Use project root instead of current directory for Ag plugin
 let g:ag_working_path_mode='r'
