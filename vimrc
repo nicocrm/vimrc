@@ -70,6 +70,11 @@ Plug 'shawncplus/phpcomplete.vim'
 Plug 'fatih/vim-go'
 " LaTeX
 Plug 'lervag/vimtex'
+" typescript syntax
+Plug 'leafgarland/typescript-vim'
+" Arduino
+Plug 'sudar/vim-arduino-syntax'
+Plug 'sudar/vim-arduino-snippets'
 " Completion, only on Neovim since it uses background processing
 if has('nvim')
   function! DoRemote(arg)
