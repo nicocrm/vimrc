@@ -248,7 +248,7 @@ nnoremap <leader>gf :e <cfile><cr>
 " CoPy: Quick copy of the current buffer to system clipboard
 nnoremap <silent> <leader>cp :1,$yank +<cr>
 " ReFormat: Quick reindent of current buffer
-nnoremap <silent> <leader>rf gg=G``
+nnoremap <silent> <leader>rf :Neoformat<cr>
 
 " Mute Highlight: Use Alt+L to mute hl search (does not work in term)
 " This also does a redraw (useful since I remapped C-l)
