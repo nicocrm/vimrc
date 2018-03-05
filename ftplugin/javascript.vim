@@ -1,5 +1,7 @@
-" autocmd BufWritePre * :%s/\s\+$//e
-autocmd BufWritePre * undojoin | Neoformat
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 set shiftwidth=2
 set tabstop=2
 UltiSnipsAddFiletypes javascript.braces
