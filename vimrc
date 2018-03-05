@@ -375,7 +375,6 @@ fu! <SID>bufferUnderCursor()
 endfu
 nnoremap <silent> <leader>p. :call <SID>bufferUnderCursor()<cr>
 
-"
 """""""""""""""
 " NERDTree (no longer using, as NETRW is generally good enough and less annoying)
 " nnoremap <leader>NT :NERDTree<cr>
