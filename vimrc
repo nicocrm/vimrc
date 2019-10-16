@@ -41,6 +41,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'vim-syntastic/syntastic'
 " Plug 'wavded/vim-stylus'
 " Very useful, includes text objects like "ii" for stuff at the current indent level
+" https://www.vim.org/scripts/script.php?script_id=3037
 Plug 'michaeljsmith/vim-indent-object'
 " Notes
 Plug 'xolox/vim-misc'
@@ -86,6 +87,7 @@ if has('nvim')
   set mouse=a
 endif
 Plug 'sbdchd/neoformat'
+Plug 'ejholmes/vim-forcedotcom'
 
 call plug#end()
 
@@ -336,6 +338,9 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "passive_filetypes": ["html"] }
 nnoremap <leader>ss :SyntasticCheck<cr>
 nnoremap <leader>se :Errors<cr>
 nnoremap <leader>sr :SyntasticReset<cr>
