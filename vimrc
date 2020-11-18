@@ -69,8 +69,6 @@ Plug 'shawncplus/phpcomplete.vim'
 " Plug 'mtscout6/vim-cjsx'
 " Go Language plugin
 Plug 'fatih/vim-go'
-" LaTeX
-Plug 'lervag/vimtex'
 " typescript syntax
 Plug 'leafgarland/typescript-vim'
 " Arduino
@@ -83,6 +81,8 @@ if has('nvim')
   endfunction
   Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
   Plug 'zchee/deoplete-go', { 'do': 'make' }
+  " Plug 'deoplete-plugins/deoplete-jedi'
+  Plug 'davidhalter/jedi-vim'
   Plug 'mhartington/nvim-typescript'
   set mouse=a
 endif
@@ -338,6 +338,9 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+let g:syntastic_python_checkers = ['flake8']
+" Turn off warnings per https://www.odoo.com/documentation/13.0/reference/guidelines.html#python
+let g:syntastic_python_flake8_args='--ignore=E501,E301,E302'
 let g:syntastic_mode_map = {
     \ "mode": "active",
     \ "passive_filetypes": ["html"] }
@@ -345,6 +348,24 @@ nnoremap <leader>ss :SyntasticCheck<cr>
 nnoremap <leader>se :Errors<cr>
 nnoremap <leader>sr :SyntasticReset<cr>
 nnoremap <leader>st :SyntasticToggleMode<cr>
+
+" Neoformat
+let g:neoformat_python_isort = {
+            \ 'exe': 'isort',
+            \ 'args': ['-', '--quiet', '--settings-path /home/odoo/.dotfiles/isort.cfg'],
+            \ 'stdin': 1,
+            \ }
+" let g:neoformat_python_yapf = {
+"             \ 'exe': 'yapf',
+"             \ 'args': ['--style ~/.style.yapf'],
+"             \ 'stdin': 1,
+"             \ }
+let g:neoformat_enabled_python = ['isort', 'black']
+"   -- apt install tidy
+"   -- npm install -g prettier @prettier/plugin-xml
+let g:neoformat_enabled_xml = ['tidy', 'prettier']
+" for python this will let us run isort and yapf
+let g:neoformat_run_all_formatters = 1
 
 """""""""""""""
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
@@ -459,11 +480,15 @@ inoremap <c-x><c-k> <c-x><c-k>
 let g:deoplete#enable_at_startup = 1
 " deoplete-go settings
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+" deoplete-jedi (for Python)
+let g:deoplete#sources#jedi#show_docstring = 1
+" Do we want to disable completions?
+let g:jedi#completions_enabled = 0
 " deoplete vimtex settings
-if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-endif
-let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
+" if !exists('g:deoplete#omni#input_patterns')
+"     let g:deoplete#omni#input_patterns = {}
+" endif
+" let g:deoplete#omni#input_patterns.tex = g:vimtex#re#deoplete
 " For debugging
 " let g:deoplete#enable_debug = 1
 " let g:deoplete#enable_profile = 1
