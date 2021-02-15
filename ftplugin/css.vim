@@ -1,2 +1,1 @@
-
 UltiSnipsAddFiletypes css.braces
