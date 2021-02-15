@@ -2,6 +2,7 @@
 " => Python section
 """"""""""""""""""""""""""""""
 let python_highlight_all = 1
+set ts=4 sw=4 sts=4
 au FileType python syn keyword pythonDecorator True None False self
 
 au BufNewFile,BufRead *.jinja set syntax=htmljinja

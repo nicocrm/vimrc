@@ -20,8 +20,8 @@ call plug#begin('$VIMHOME/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'rking/ag.vim'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
@@ -70,7 +70,7 @@ Plug 'shawncplus/phpcomplete.vim'
 " Go Language plugin
 Plug 'fatih/vim-go'
 " typescript syntax
-Plug 'leafgarland/typescript-vim'
+" Plug 'leafgarland/typescript-vim'
 " Arduino
 Plug 'sudar/vim-arduino-syntax'
 Plug 'sudar/vim-arduino-snippets'
@@ -83,7 +83,7 @@ if has('nvim')
   Plug 'zchee/deoplete-go', { 'do': 'make' }
   " Plug 'deoplete-plugins/deoplete-jedi'
   Plug 'davidhalter/jedi-vim'
-  Plug 'mhartington/nvim-typescript'
+  " Plug 'mhartington/nvim-typescript'
   set mouse=a
 endif
 Plug 'sbdchd/neoformat'
@@ -109,7 +109,9 @@ set wildignore+=.git,*.exe,*.dll,*.so,node_modules,.meteor,*.map
 set ignorecase "Ignore case when searching
 set smartcase
 set number " show line numbers
-set autochdir " Automatically change to current file directory
+" I turned the following off because it makes it difficult to use things like Ctrl-P...
+" and use a mapping instead
+" set autochdir " Automatically change to current file directory
 
 set hlsearch "Highlight search things
 
@@ -307,6 +309,12 @@ if has('nvim')
   tnoremap <C-v><Esc> <Esc>
 endif
 
+" Copy current file path to clipboard
+noremap <silent> <F4> :let @+=expand("%:p")<CR>
+
+" Change cwd to current file path
+noremap <leader>cd :lcd %:p:h<cr>1<c-g>
+
 " }}}
 
 " Plugin Variables (and plugin-specific mappings) {{{
@@ -340,9 +348,10 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
 let g:syntastic_python_checkers = ['flake8']
 " Turn off warnings per https://www.odoo.com/documentation/13.0/reference/guidelines.html#python
-let g:syntastic_python_flake8_args='--ignore=E501,E301,E302'
+let g:syntastic_python_flake8_args='--ignore=E501,E301,E302,W503'
 let g:syntastic_mode_map = {
-    \ "mode": "active",
+    \ "mode": "passive",
+    \ "active_filetypes": ["javascript", "python"],
     \ "passive_filetypes": ["html"] }
 nnoremap <leader>ss :SyntasticCheck<cr>
 nnoremap <leader>se :Errors<cr>
@@ -360,6 +369,11 @@ let g:neoformat_python_isort = {
 "             \ 'args': ['--style ~/.style.yapf'],
 "             \ 'stdin': 1,
 "             \ }
+let g:neoformat_python_black = {
+                \ 'exe': 'black',
+                \ 'stdin': 1,
+                \ 'args': ['--line-length', '100', '-q', '-'],
+                \ }
 let g:neoformat_enabled_python = ['isort', 'black']
 "   -- apt install tidy
 "   -- npm install -g prettier @prettier/plugin-xml
@@ -369,14 +383,17 @@ let g:neoformat_run_all_formatters = 1
 
 """""""""""""""
 " CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
-" OK I went BACK to Command-T because CtrlP has some annoying refresh issues
-" Might keep CtrlP just for Windows benefit
-" This command will use git when we are in a git repo, ignoring files listed in .gitignore
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" working_path_mode: ra to use git repo as root marker, a to just use current directory (or cwd)
+" let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = 'a'
 let g:ctrlp_show_hidden = 1
 " Custom root markers
 " let g:ctrlp_root_markers = ['.idea']
-let g:ctrlp_max_files=100000
+let g:ctrlp_max_files=0
+let g:ctrlp_regexp=0
+" search by filename (as opposed to full path)
+" Can toggle with <c-d> in prompt
+let g:ctrlp_by_filename = 1
 " Use caching if > 1000 files
 let g:ctrlp_use_caching=1000
 " No need for custom ignore because we are putting those in wildignore already, but just in case
@@ -481,7 +498,7 @@ let g:deoplete#enable_at_startup = 1
 " deoplete-go settings
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 " deoplete-jedi (for Python)
-let g:deoplete#sources#jedi#show_docstring = 1
+let g:deoplete#sources#jedi#show_docstring = 0
 " Do we want to disable completions?
 let g:jedi#completions_enabled = 0
 " deoplete vimtex settings
@@ -495,7 +512,7 @@ let g:jedi#completions_enabled = 0
 " call deoplete#enable_logging('DEBUG', '/PATH_TO/deoplete.log')<Paste>
 
 " Use project root instead of current directory for Ag plugin
-let g:ag_working_path_mode='r'
+" let g:ag_working_path_mode='r'
 
 " }}}
 
