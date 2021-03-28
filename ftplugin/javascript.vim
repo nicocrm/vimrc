@@ -3,11 +3,12 @@
 "   autocmd!
 "   autocmd BufWritePre * undojoin | Neoformat
 " augroup END
-set shiftwidth=2
-set tabstop=2
+setlocal shiftwidth=2
+setlocal tabstop=2
+setlocal sts=2
 UltiSnipsAddFiletypes javascript.braces
-" for odoo
-set sw=4 softtabstop=4
+" for odoo?
+" set sw=4 softtabstop=4
 
 " Define some javascript file templates
 " I guess we could be fancy and autoload them

@@ -19,7 +19,6 @@ set runtimepath^=$VIMHOME/plugin
 call plug#begin('$VIMHOME/plugged')
 
 Plug 'tpope/vim-sensible'
-Plug 'rking/ag.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'chaoren/vim-wordmotion'
@@ -35,7 +34,7 @@ if has('python3') || has('python')
 endif
 Plug 'jlanzarotta/bufexplorer'
 " emmett type plugin
-Plug 'rstacruz/sparkup'
+" Plug 'rstacruz/sparkup'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'vim-syntastic/syntastic'
@@ -45,13 +44,13 @@ Plug 'vim-syntastic/syntastic'
 Plug 'michaeljsmith/vim-indent-object'
 " Notes
 Plug 'xolox/vim-misc'
-Plug 'nicocrm/vim-notes'
+" Plug 'nicocrm/vim-notes'
 " Vim-Session is neat but causes some issues on xterm.
 "Plug 'xolox/vim-session'
 " Those are both similar, command-t generally works faster but is more of a pain to install
 " and doesn't work on neovim
 " Plug 'wincent/command-t'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 " Fuzzy finder does not work on Windows but is a lot faster than ctrl P and has more options
 if !has('win32')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -64,30 +63,28 @@ Plug 'jeetsukumaran/vim-filebeagle'
 " PHP
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'shawncplus/phpcomplete.vim'
-" Coffee Script, not really doing any of that anymore
-" Plug 'kchmck/vim-coffee-script'
-" Plug 'mtscout6/vim-cjsx'
 " Go Language plugin
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 " typescript syntax
 " Plug 'leafgarland/typescript-vim'
 " Arduino
-Plug 'sudar/vim-arduino-syntax'
-Plug 'sudar/vim-arduino-snippets'
+" Plug 'sudar/vim-arduino-syntax'
+" Plug 'sudar/vim-arduino-snippets'
 " Completion, only on Neovim since it uses background processing
 if has('nvim')
-  function! DoRemote(arg)
-    UpdateRemotePlugins
-  endfunction
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-  Plug 'zchee/deoplete-go', { 'do': 'make' }
+  " function! DoRemote(arg)
+  "   UpdateRemotePlugins
+  " endfunction
+  " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+  " Plug 'zchee/deoplete-go', { 'do': 'make' }
   " Plug 'deoplete-plugins/deoplete-jedi'
-  Plug 'davidhalter/jedi-vim'
+  " Plug 'davidhalter/jedi-vim'
   " Plug 'mhartington/nvim-typescript'
   set mouse=a
 endif
 Plug 'sbdchd/neoformat'
-Plug 'ejholmes/vim-forcedotcom'
+" Plug 'ejholmes/vim-forcedotcom'
 
 call plug#end()
 
@@ -382,41 +379,46 @@ let g:neoformat_enabled_xml = ['tidy', 'prettier']
 let g:neoformat_run_all_formatters = 1
 
 """""""""""""""
-" CtrlP (using this in favor of command-T, as it is a bit more featureful, and easier to install on Windows)
-" working_path_mode: ra to use git repo as root marker, a to just use current directory (or cwd)
-" let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_working_path_mode = 'a'
-let g:ctrlp_show_hidden = 1
-" Custom root markers
-" let g:ctrlp_root_markers = ['.idea']
-let g:ctrlp_max_files=0
-let g:ctrlp_regexp=0
-" search by filename (as opposed to full path)
-" Can toggle with <c-d> in prompt
-let g:ctrlp_by_filename = 1
-" Use caching if > 1000 files
-let g:ctrlp_use_caching=1000
-" No need for custom ignore because we are putting those in wildignore already, but just in case
-let g:ctrlp_custom_ignore='node_modules\|git\|.meteor'
-let g:ctrlp_cmd='CtrlPLastMode'
-nnoremap <silent> <leader>pp :CtrlP<cr>
-nnoremap <silent> <leader>pr :CtrlPMRU<cr>
-nnoremap <silent> <leader>pb :CtrlPBuffer<cr>
-nnoremap <silent> <leader>pm :CtrlPMixed<cr>
-let g:ctrlp_open_single_match = ['buffer tags', 'buffers']
+" FZF (fuzzy find everything)
+"
+" fu! <SID>bufferUnderCursor()
+"   try
+"     let default_input_save = get(g:, 'ctrlp_default_input', '')
+"     let g:ctrlp_default_input = expand('<cword>')
+"     CtrlPBuffer
+"   finally
+"     if exists('default_input_save')
+"       let g:ctrlp_default_input = default_input_save
+"     endif
+"   endtry
+" endfu
+" nnoremap <silent> <leader>p. :call <SID>bufferUnderCursor()<cr>
 
-fu! <SID>bufferUnderCursor()
-  try
-    let default_input_save = get(g:, 'ctrlp_default_input', '')
-    let g:ctrlp_default_input = expand('<cword>')
-    CtrlPBuffer
-  finally
-    if exists('default_input_save')
-      let g:ctrlp_default_input = default_input_save
-    endif
-  endtry
-endfu
-nnoremap <silent> <leader>p. :call <SID>bufferUnderCursor()<cr>
+
+function! s:find_git_root()
+  " from https://tech.serhatteker.com/post/2019-05/vim-fzf-project-root/
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! ProjectFiles execute 'Files' s:find_git_root()
+" Mappings from https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko
+nnoremap <silent> <C-p> :ProjectFiles<CR>
+nnoremap <silent> <leader>p :Files<CR>
+" https://github.com/junegunn/fzf.vim/issues/346#issuecomment-288483704
+command! -bang -nargs=* ProjectRg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..', 'dir': s:find_git_root()}, <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+nnoremap <silent> <leader>f :Rg<CR>
+nnoremap <silent> <leader>F :ProjectRg<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <Leader>/ :BLines<CR>
+nnoremap <silent> <Leader>' :Marks<CR>
+nnoremap <silent> <Leader>g :Commits<CR>
+nnoremap <silent> <Leader>H :Helptags<CR>
+nnoremap <silent> <Leader>hh :History<CR>
+nnoremap <silent> <Leader>h: :History:<CR>
+nnoremap <silent> <Leader>h/ :History/<CR>
+" because this one will conflict...
+let g:filebeagle_suppress_keymaps=1
+map <silent> -  <Plug>FileBeagleOpenCurrentBufferDir
 
 """""""""""""""
 " NERDTree (no longer using, as NETRW is generally good enough and less annoying)
@@ -466,7 +468,7 @@ let g:sparkupExecuteMapping = '<c-e>'
 " Buf Explorer - use upper case letters so they don't conflict
 " with Command-T <leader>b mapping for buffer list
 " (which is generally more useful than buf explorer)
-nnoremap <leader>b :BufExplorer<cr>
+nnoremap <leader>B :BufExplorer<cr>
 nnoremap <leader>BT :ToggleBufExplorer<cr>
 nnoremap <leader>BS :BufExplorerHorizontalSplit<cr>
 nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
