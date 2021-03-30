@@ -399,15 +399,25 @@ function! s:find_git_root()
   " from https://tech.serhatteker.com/post/2019-05/vim-fzf-project-root/
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
+" function! <SID>fileUnderCursor()
+" Would be nice if we could feed some default input to :Files, to make it do a search for the string under the 
+" cursor...  like ctrlp_default_input did
+
+
 command! ProjectFiles execute 'Files' s:find_git_root()
 " Mappings from https://dev.to/iggredible/how-to-search-faster-in-vim-with-fzf-vim-36ko
 nnoremap <silent> <C-p> :ProjectFiles<CR>
 nnoremap <silent> <leader>p :Files<CR>
 " https://github.com/junegunn/fzf.vim/issues/346#issuecomment-288483704
+" search in git root
 command! -bang -nargs=* ProjectRg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..', 'dir': s:find_git_root()}, <bang>0)
+" search in current dir
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 nnoremap <silent> <leader>f :Rg<CR>
 nnoremap <silent> <leader>F :ProjectRg<CR>
+" search under cursor
+nnoremap <silent> <leader>.f "zyiw:exe "Rg ".@z.""<CR>
+nnoremap <silent> <leader>.F "zyiw:exe "ProjectRg ".@z.""<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <Leader>/ :BLines<CR>
 nnoremap <silent> <Leader>' :Marks<CR>
