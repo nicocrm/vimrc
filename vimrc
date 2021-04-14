@@ -261,9 +261,8 @@ nnoremap <leader>sv :w<cr>:source ~/.vim/vimrc<cr>:q<cr>
 
 " Buffers
 
-" To open a new empty buffer
-" This replaces :tabnew which I used to bind to this mapping
-nmap <leader>T :enew<cr>
+" To open a new empty tab
+nmap <leader>T :tabnew<cr>
 
 " Close the current buffer and move to the previous one
 " This replicates the idea of closing a tab
