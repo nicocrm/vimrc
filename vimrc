@@ -83,6 +83,9 @@ if has('nvim')
   " Plug 'mhartington/nvim-typescript'
   set mouse=a
 endif
+" Python
+Plug 'Vimjas/vim-python-pep8-indent'
+
 Plug 'sbdchd/neoformat'
 " Plug 'ejholmes/vim-forcedotcom'
 
