@@ -37,20 +37,17 @@ Plug 'jlanzarotta/bufexplorer'
 " Plug 'rstacruz/sparkup'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
-Plug 'vim-syntastic/syntastic'
-" Plug 'wavded/vim-stylus'
+" Completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Do also:
+" :CocInstall coc-pyright (see https://github.com/fannheyward/coc-pyright)
+
 " Very useful, includes text objects like "ii" for stuff at the current indent level
 " https://www.vim.org/scripts/script.php?script_id=3037
-Plug 'michaeljsmith/vim-indent-object'
+" Plug 'michaeljsmith/vim-indent-object'
 " Notes
-Plug 'xolox/vim-misc'
 " Plug 'nicocrm/vim-notes'
-" Vim-Session is neat but causes some issues on xterm.
-"Plug 'xolox/vim-session'
-" Those are both similar, command-t generally works faster but is more of a pain to install
-" and doesn't work on neovim
-" Plug 'wincent/command-t'
-" Plug 'ctrlpvim/ctrlp.vim'
 " Fuzzy finder does not work on Windows but is a lot faster than ctrl P and has more options
 if !has('win32')
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -70,21 +67,13 @@ Plug 'shawncplus/phpcomplete.vim'
 " Arduino
 " Plug 'sudar/vim-arduino-syntax'
 " Plug 'sudar/vim-arduino-snippets'
-" Completion, only on Neovim since it uses background processing
-if has('nvim')
-  " function! DoRemote(arg)
-  "   UpdateRemotePlugins
-  " endfunction
-  " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-  " Plug 'zchee/deoplete-go', { 'do': 'make' }
-  " Plug 'deoplete-plugins/deoplete-jedi'
-  " Plug 'davidhalter/jedi-vim'
-  " Plug 'mhartington/nvim-typescript'
-  set mouse=a
-endif
 " Python
 Plug 'Vimjas/vim-python-pep8-indent'
+" python object motion.  ]], [[, ]m, ]M, etc
+Plug 'jeetsukumaran/vim-pythonsense'
+if has('nvim')
+  Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+end
 
 Plug 'sbdchd/neoformat'
 " Plug 'ejholmes/vim-forcedotcom'
@@ -161,6 +150,32 @@ colo distinguished
 " call togglebg#map("<F5>")
 
 syntax on
+
+" }}}
+
+" CoC stuff {{{
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  " for neovim.  Not sure.  Neovim doesn't have it until 0.5.0
+  " set signcolumn=yes
+endif
+nmap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+" Smart rename (renames the exports across all files)
+nmap <leader>rn <Plug>(coc-rename)
+
 
 " }}}
 
@@ -334,28 +349,6 @@ let g:CommandTSCMDirectories='.git,.idea,.svn'
 
 " For JSX indenting in JS files
 let g:jsx_ext_required = 0
-
-" Syntastic
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-" I turned off the automatic check by default because it was too annoying.
-" It will still check on write automatically
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
-let g:syntastic_python_checkers = ['flake8']
-" Turn off warnings per https://www.odoo.com/documentation/13.0/reference/guidelines.html#python
-let g:syntastic_python_flake8_args='--ignore=E501,E301,E302,W503'
-let g:syntastic_mode_map = {
-    \ "mode": "passive",
-    \ "active_filetypes": ["javascript", "python"],
-    \ "passive_filetypes": ["html"] }
-nnoremap <leader>ss :SyntasticCheck<cr>
-nnoremap <leader>se :Errors<cr>
-nnoremap <leader>sr :SyntasticReset<cr>
-nnoremap <leader>st :SyntasticToggleMode<cr>
 
 " Neoformat
 let g:neoformat_python_isort = {
