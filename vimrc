@@ -27,7 +27,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-projectionist'
-Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-commentary'
 Plug 'wesQ3/vim-windowswap'
 if has('python3') || has('python')
   Plug 'SirVer/ultisnips'
