@@ -92,6 +92,8 @@ call plug#end()
 " VIM user interface {{{
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set mouse=a
+set title
 set history=50
 set wildmenu "Turn on WiLd menu
 set wildignore+=.git,*.exe,*.dll,*.so,node_modules,.meteor,*.map
