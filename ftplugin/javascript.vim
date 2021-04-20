@@ -14,3 +14,4 @@ UltiSnipsAddFiletypes javascript.braces
 " I guess we could be fancy and autoload them
 com! -nargs=1 ReactNew :call OpenWithTemplate('<args>', '.js', 'react-newcomponent.js')
 let g:neoformat_enabled_javascript = ['prettier']
+let b:ale_fixers = ['prettier']

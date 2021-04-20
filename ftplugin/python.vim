@@ -20,3 +20,9 @@ au FileType python map <buffer> <leader>1 /class
 au FileType python map <buffer> <leader>2 /def
 au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
+
+let b:ale_linters = ['jedils', 'flake8']
+let b:ale_fixers = ['isort', 'black']
+let b:ale_python_flake8_options = '--ignore=E501,E301,E302'
+" note that this will take precedence over options specified in the local pyproject.toml file
+let b:ale_python_black_options = '--line-length 100'

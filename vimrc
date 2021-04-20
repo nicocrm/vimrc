@@ -37,11 +37,19 @@ Plug 'jlanzarotta/bufexplorer'
 " Plug 'rstacruz/sparkup'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
+" ALE for syntax checking
+" https://www.vimfromscratch.com/articles/vim-and-language-server-protocol/
+Plug 'dense-analysis/ale'
 " Completion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Do also:
-" :CocInstall coc-pyright (see https://github.com/fannheyward/coc-pyright)
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'deoplete-plugins/deoplete-jedi'
+let g:deoplete#enable_at_startup = 1
 
 " Very useful, includes text objects like "ii" for stuff at the current indent level
 " https://www.vim.org/scripts/script.php?script_id=3037
@@ -155,28 +163,19 @@ syntax on
 
 " }}}
 
-" CoC stuff {{{
+" ALE {{{
+" Something to revisit when nvim 0.5 comes out, since it will have native support for LSP
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
-else
-  " for neovim.  Not sure.  Neovim doesn't have it until 0.5.0
-  " set signcolumn=yes
-endif
-nmap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-" Smart rename (renames the exports across all files)
-nmap <leader>rn <Plug>(coc-rename)
+" ALEHover
+nmap <silent> K <Plug>(ale_hover)
+" ALEFindReferences
+nmap <silent> gr <Plug>(ale_find_references)
+" ALEGoToDefinition
+nmap <silent> gd <Plug>(ale_go_to_definition_in_tab)
+" nmap <silent> gtd <Plug>(ale_go_to_definition_in_tab)
+" ALEFix
+" Bind F8 to fixing problems with ALE
+nmap <F8> <Plug>(ale_fix)
 
 
 " }}}
@@ -502,14 +501,12 @@ inoremap <c-x><c-k> <c-x><c-k>
 " Sessions (not using right now)
 " let g:session_autosave = 'no'
 
-" Enable deoplete
-let g:deoplete#enable_at_startup = 1
 " deoplete-go settings
 let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 " deoplete-jedi (for Python)
-let g:deoplete#sources#jedi#show_docstring = 0
+" let g:deoplete#sources#jedi#show_docstring = 0
 " Do we want to disable completions?
-let g:jedi#completions_enabled = 0
+" let g:jedi#completions_enabled = 0
 " deoplete vimtex settings
 " if !exists('g:deoplete#omni#input_patterns')
 "     let g:deoplete#omni#input_patterns = {}
