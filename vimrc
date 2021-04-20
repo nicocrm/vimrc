@@ -24,7 +24,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-commentary'
@@ -176,7 +176,10 @@ nmap <silent> gd <Plug>(ale_go_to_definition_in_tab)
 " ALEFix
 " Bind F8 to fixing problems with ALE
 nmap <F8> <Plug>(ale_fix)
-
+" move to the next ALE warning / error
+nnoremap ]r :ALENextWrap<CR>
+" move to the previous ALE warning / error
+nnoremap [r :ALEPreviousWrap<CR>
 
 " }}}
 
