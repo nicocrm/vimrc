@@ -163,6 +163,13 @@ syntax on
 
 " }}}
 
+" {{{
+" Sandwich: do not use the default keymaps, because they'll bind the "s" key which I use quite often
+
+runtime macros/sandwich/keymap/surround.vim
+
+" }}}
+
 " ALE {{{
 " Something to revisit when nvim 0.5 comes out, since it will have native support for LSP
 
