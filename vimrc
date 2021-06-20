@@ -36,6 +36,8 @@ Plug 'jlanzarotta/bufexplorer'
 " emmett type plugin
 " Plug 'rstacruz/sparkup'
 Plug 'mxw/vim-jsx'
+" Plug 'posva/vim-vue'
+Plug 'storyn26383/vim-vue'
 Plug 'pangloss/vim-javascript'
 " ALE for syntax checking
 " https://www.vimfromscratch.com/articles/vim-and-language-server-protocol/
@@ -43,17 +45,9 @@ Plug 'dense-analysis/ale'
 " Completion
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'deoplete-plugins/deoplete-jedi'
 endif
-Plug 'deoplete-plugins/deoplete-jedi'
-let g:deoplete#enable_at_startup = 1
 
-" Very useful, includes text objects like "ii" for stuff at the current indent level
-" https://www.vim.org/scripts/script.php?script_id=3037
-" Plug 'michaeljsmith/vim-indent-object'
 " Notes
 " Plug 'nicocrm/vim-notes'
 " Fuzzy finder does not work on Windows but is a lot faster than ctrl P and has more options
@@ -75,16 +69,24 @@ Plug 'shawncplus/phpcomplete.vim'
 " Arduino
 " Plug 'sudar/vim-arduino-syntax'
 " Plug 'sudar/vim-arduino-snippets'
-" Python
+"
+" Python {{{
+" maybe: https://github.com/jmcantrell/vim-virtualenv
+" Very useful, includes text objects like "ii" for stuff at the current indent level
+" https://www.vim.org/scripts/script.php?script_id=3037
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'Vimjas/vim-python-pep8-indent'
 " python object motion.  ]], [[, ]m, ]M, etc
 Plug 'jeetsukumaran/vim-pythonsense'
-if has('nvim')
-  Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-end
+" if has('nvim')
+"   Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+" end
+" }}}
 
+" Not sure because ALE can already do that
 Plug 'sbdchd/neoformat'
 " Plug 'ejholmes/vim-forcedotcom'
+Plug 'rking/ag.vim'
 
 call plug#end()
 
@@ -157,6 +159,7 @@ set bg=dark
 " colo molokai
 colo distinguished
 " colo solarized
+" let g:airline_theme='solarized_flood'
 " call togglebg#map("<F5>")
 
 syntax on
@@ -173,6 +176,14 @@ runtime macros/sandwich/keymap/surround.vim
 " ALE {{{
 " Something to revisit when nvim 0.5 comes out, since it will have native support for LSP
 
+" Don't check too fast while typing
+" let g:ale_lint_delay = 500
+" Or, don't check at all while typing
+" let g:ale_lint_on_text_changed = "never"
+" But make sure we check when we leave insert mode
+let g:ale_lint_on_insert_leave = 1
+" ALEDetail
+nmap <silent> <leader>D <Plug>(ale_detail)
 " ALEHover
 nmap <silent> K <Plug>(ale_hover)
 " ALEFindReferences
@@ -241,6 +252,8 @@ set wrap "Wrap lines
 let mapleader = " "
 
 " Use jj for escape (try this instead of jk?)
+" Make using Ctrl+C do the same as Escape, to trigger autocmd commands
+inoremap <C-c> <Esc>
 inoremap jj <esc>
 " JJ for newlines?
 inoremap JJ <cr>
@@ -360,6 +373,8 @@ let g:CommandTSCMDirectories='.git,.idea,.svn'
 
 " For JSX indenting in JS files
 let g:jsx_ext_required = 0
+" To limit the pre-processor support in vim-vue
+let g:vue_pre_processors = []
 
 " Neoformat
 let g:neoformat_python_isort = {
@@ -441,8 +456,9 @@ map <silent> -  <Plug>FileBeagleOpenCurrentBufferDir
 " nnoremap <leader>NT :NERDTree<cr>
 
 " netrw
-nnoremap <leader>ex :Explore
-nnoremap <leader>sx :Sex
+nnoremap <leader>ex :Explore<CR>
+nnoremap <leader>sx :Sex<CR>
+" nnoremap <silent> -  :Ex<CR>
 " to suppress banner, change to 0
 let g:netrw_banner=1
 " set current directory from netrw browse dir
@@ -462,23 +478,26 @@ let g:sparkupExecuteMapping = '<c-e>'
 """""""""""""""
 " VIM AIRLINE
 " Enable the list of buffers
-" let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'   " or short_path
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline_highlighting_cache = 1
 " " Don't show buffer #, because we already show the index.
 " " Show file name, not full path
 " let g:airline#extensions#tabline#buffer_nr_show = 0
 " let g:airline#extensions#tabline#fnamemod = ':t'
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
-" nmap <leader>1 <Plug>AirlineSelectTab1
-" nmap <leader>2 <Plug>AirlineSelectTab2
-" nmap <leader>3 <Plug>AirlineSelectTab3
-" nmap <leader>4 <Plug>AirlineSelectTab4
-" nmap <leader>5 <Plug>AirlineSelectTab5
-" nmap <leader>6 <Plug>AirlineSelectTab6
-" nmap <leader>7 <Plug>AirlineSelectTab7
-" nmap <leader>8 <Plug>AirlineSelectTab8
-" nmap <leader>9 <Plug>AirlineSelectTab9
-" nmap <leader>- <Plug>AirlineSelectPrevTab
-" nmap <leader>+ <Plug>AirlineSelectNextTab
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
+nmap <leader>- <Plug>AirlineSelectPrevTab
+nmap <leader>+ <Plug>AirlineSelectNextTab
 
 """""""""""""
 " Buf Explorer - use upper case letters so they don't conflict
@@ -492,12 +511,6 @@ nnoremap <leader>BV :BufExplorerVerticalSplit<cr>
 " Set a prefix for VIM WordMotion, so we can keep using the
 " standard VIM keys
 let g:wordmotion_prefix = ","
-
-""""""""""""""
-" Vim Notes - note taking in VIM
-" (see also nicnote.vim which has some mappings)
-let g:notes_directories = ['~/Dropbox/Documents/Notes']
-let g:notes_smart_quotes = 0
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -526,6 +539,9 @@ let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 " let g:deoplete#enable_debug = 1
 " let g:deoplete#enable_profile = 1
 " call deoplete#enable_logging('DEBUG', '/PATH_TO/deoplete.log')<Paste>
+let g:deoplete#enable_at_startup = 1
+" Avoid slowing down semshi
+call deoplete#custom#option('auto_complete_delay', 100)
 
 " Use project root instead of current directory for Ag plugin
 " let g:ag_working_path_mode='r'
