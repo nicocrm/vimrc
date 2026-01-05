@@ -1,6 +1,0 @@
-" This file should be placed as $HOME/_vimrc
-
-
-source $HOME/vimfiles/vimrc
-
-set guifont=Consolas:h10
