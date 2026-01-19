@@ -17,3 +17,9 @@ vim.cmd([[
 	set wrap
   set nu
 ]])
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})

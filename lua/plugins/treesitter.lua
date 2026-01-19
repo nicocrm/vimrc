@@ -1,3 +1,4 @@
+-- nvim tree sitter requires treesitter installed (on debian, tree-sitter-cli)!
 return {
   "nvim-treesitter/nvim-treesitter",
   lazy = false,
