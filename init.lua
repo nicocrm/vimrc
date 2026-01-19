@@ -15,4 +15,5 @@ vim.cmd([[
 	set autoindent
 	set nosmartindent
 	set wrap
+  set nu
 ]])
