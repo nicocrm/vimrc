@@ -18,8 +18,19 @@ vim.cmd([[
   set nu
 ]])
 
+-- Highlight yanked text briefly
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
+
+-- Persistent undo
+local undo_path = vim.fn.stdpath("data") .. "/undo"
+if vim.fn.isdirectory(undo_path) == 0 then
+  vim.fn.mkdir(undo_path, "p")
+end
+vim.opt.undodir = undo_path
+vim.opt.undofile = true
+-- write on :next
+vim.opt.autowrite = true

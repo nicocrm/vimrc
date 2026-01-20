@@ -6,17 +6,25 @@ return {
 		require("mini.icons").setup()
 		require("mini.ai").setup()
 		require("mini.surround").setup()
-		require("mini.pairs").setup()
-		require("mini.operators").setup()
+		require("mini.operators").setup({
+      replace = {
+        -- to avoid replacing the gr* lsp mappings
+        -- this is nice because it will replace the text without losing what's in the register
+        prefix = "<leader>P"
+      }
+    })
 		require("mini.completion").setup({
       -- don't fallback to builtin completion, I just want the LSP complete
       fallback_action = ""
     })
 		require("mini.snippets").setup()
+    require("mini.misc").setup()
+    -- setup_auto_root so that picker etc work from the project root
+    MiniMisc.setup_auto_root({ '.git' })
 
     -- Picker (alternative for fzf-lua)
     require("mini.pick").setup()
-    vim.keymap.set("n", "<C-p>", "<cmd>Pick files<CR>", { desc = "Find files" })
+    vim.keymap.set("n", "<C-p>", "<cmd>Pick files tool='git'<CR>", { desc = "Find files" })
 		vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<CR>", { desc = "Find files" })
 		vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<CR>", { desc = "Live grep" })
 		vim.keymap.set("n", "<leader>fb", "<cmd>Pick buffers<CR>", { desc = "Find buffers" })
@@ -48,6 +56,10 @@ return {
     vim.keymap.set("n", "<leader>-", function() require("mini.files").open(".") end, {
       desc = "Open mini.files (current dir)"
     })
+
+    -- :Git
+    require("mini.git").setup()
+    require("mini.diff").setup()
 	end,
 	lazy = false,
 }
