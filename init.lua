@@ -16,6 +16,7 @@ vim.cmd([[
 	set nosmartindent
 	set wrap
   set nu
+  set ignorecase smartcase
 ]])
 
 -- Highlight yanked text briefly

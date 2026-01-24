@@ -4,11 +4,12 @@ return {
     -- replaces vim word motions with "smarter" ones
     "chrisgrieser/nvim-spider",
     keys = {
-      -- will need to use "ce" to change just the current word - cw will change all the way to the next one
-      { "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
-      { "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
-      { "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
-      { "ge", "<cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" } },
+      -- use meta modifier, because remapping the standard keys makes it difficult to navigate on a vi
+      -- instance that does not have the plugin
+      { "<M-w>", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+      { "<M-e>", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+      { "<M-b>", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+      { "<M-g><M-e>", "<cmd>lua require('spider').motion('ge')<CR>", mode = { "n", "o", "x" } },
     },
   }, {
     -- 
