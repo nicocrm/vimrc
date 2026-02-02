@@ -23,7 +23,11 @@ return {
     MiniMisc.setup_auto_root({ '.git' })
 
     -- Picker (alternative for fzf-lua)
-    require("mini.pick").setup()
+    require("mini.pick").setup({
+      mappings = {
+        choose_marked = '<C-q>'
+      }
+    })
     vim.keymap.set("n", "<C-p>", "<cmd>Pick files tool='git'<CR>", { desc = "Find files" })
 		vim.keymap.set("n", "<leader>ff", "<cmd>Pick files<CR>", { desc = "Find files" })
 		vim.keymap.set("n", "<leader>fg", "<cmd>Pick grep_live<CR>", { desc = "Live grep" })
