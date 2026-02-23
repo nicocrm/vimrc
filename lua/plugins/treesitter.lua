@@ -255,10 +255,10 @@ return {
 				end)
 			end
 			local moves = {
-				{ "wj", "Down", "Up", "Move down tree" },
-				{ "wk", "Up", "Down", "Move up tree" },
-				{ "wl", "Right", "Left", "Move into node" },
-				{ "wh", "Left", "Right", "Move out of node" },
+				{ "<C-j>", "Down", "Up", "Move down tree" },
+				{ "<C-k>", "Up", "Down", "Move up tree" },
+				{ "<C-l>", "Right", "Left", "Move into node" },
+				{ "<C-h>", "Left", "Right", "Move out of node" },
 			}
 			for _, m in ipairs(moves) do
 				local key, fwd, bwd, desc = m[1], m[2], m[3], m[4]
@@ -269,10 +269,10 @@ return {
 			end
 
 			-- Swapping
-			vim.keymap.set("n", "wsj", "<cmd>Treewalker SwapDown<cr>", { desc = "Swap node down" })
-			vim.keymap.set("n", "wsk", "<cmd>Treewalker SwapUp<cr>", { desc = "Swap node up" })
-			vim.keymap.set("n", "wsl", "<cmd>Treewalker SwapRight<cr>", { desc = "Swap node right" })
-			vim.keymap.set("n", "wsh", "<cmd>Treewalker SwapLeft<cr>", { desc = "Swap node left" })
+			vim.keymap.set("n", "<leader><C-j>", "<cmd>Treewalker SwapDown<cr>", { desc = "Swap node down" })
+			vim.keymap.set("n", "<leader><C-k>", "<cmd>Treewalker SwapUp<cr>", { desc = "Swap node up" })
+			vim.keymap.set("n", "<leader><C-l>", "<cmd>Treewalker SwapRight<cr>", { desc = "Swap node right" })
+			vim.keymap.set("n", "<leader><C-h>", "<cmd>Treewalker SwapLeft<cr>", { desc = "Swap node left" })
 		end,
 	},
 }
