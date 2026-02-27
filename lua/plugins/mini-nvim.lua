@@ -4,7 +4,6 @@ return {
 	version = false,
 	config = function()
 		require("mini.icons").setup()
-		require("mini.ai").setup()
 		require("mini.surround").setup()
 		require("mini.operators").setup({
       replace = {
