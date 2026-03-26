@@ -7,8 +7,10 @@ return {
     -- Python -> ty
     vim.lsp.enable('ty')
     vim.lsp.enable('dartls')
-    vim.lsp.enable('angularls')
-    vim.lsp.enable('tsserver')
+    -- vim.lsp.enable('angularls')
+    -- go install golang.org/x/tools/gopls@latest
+    vim.lsp.enable('gopls')
+    vim.lsp.enable('ts_ls')
     vim.lsp.enable('stylua')
     -- vim.lsp.config('pyrefly', {
     --   root_markers = { 'pyrefly.toml', '.git' },
