@@ -29,5 +29,7 @@ return {
     vim.keymap.set('n', '<leader>f', function()
       vim.lsp.buf.format { async = true }
     end, {})
+    -- also K for showing the definition of the type at cursor (K again to go inside)
+    -- standard mappings: https://neovim.io/doc/user/lsp
   end
 }
