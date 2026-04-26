@@ -1,35 +1,46 @@
 return {
-  -- pre-packaged lsp configurations
-  -- see https://github.com/neovim/nvim-lspconfig/tree/master/lsp
-  -- the actual language server executables must be installed separately
-  "neovim/nvim-lspconfig",
-  config = function() 
-    -- Python -> ty
-    vim.lsp.enable('ty')
-    vim.lsp.enable('dartls')
-    -- vim.lsp.enable('angularls')
-    -- go install golang.org/x/tools/gopls@latest
-    vim.lsp.enable('gopls')
-    vim.lsp.enable('ts_ls')
-    vim.lsp.enable('stylua')
-    -- vim.lsp.config('pyrefly', {
-    --   root_markers = { 'pyrefly.toml', '.git' },
-    --   init_options = {
-    --     -- this doesn't seem to actually work...
-    --     displayTypeErrors = "force-on"
-    --   }
-    -- })
-    -- vim.lsp.enable('pyrefly')
+	{
+		-- pre-packaged lsp configurations
+		-- see https://github.com/neovim/nvim-lspconfig/tree/master/lsp
+		-- the actual language server executables must be installed separately
+		"neovim/nvim-lspconfig",
+		config = function()
+			-- Python -> ty
+			vim.lsp.enable("ty")
+			vim.lsp.enable("dartls")
+			-- vim.lsp.enable('angularls')
+			-- go install golang.org/x/tools/gopls@latest
+			vim.lsp.enable("gopls")
+			-- that's the old one
+			-- vim.lsp.enable('ts_ls')
+      -- vs code one - install with npm install -g @vtsls/language-server
+			-- vim.lsp.enable('vtsls')
+			vim.lsp.enable("stylua")
+			-- vim.lsp.config('pyrefly', {
+			--   root_markers = { 'pyrefly.toml', '.git' },
+			--   init_options = {
+			--     -- this doesn't seem to actually work...
+			--     displayTypeErrors = "force-on"
+			--   }
+			-- })
+			-- vim.lsp.enable('pyrefly')
 
-    -- useful keymappings
-    vim.keymap.set("n", "]g", vim.diagnostic.goto_next)
-    vim.keymap.set("n", "[g", vim.diagnostic.goto_prev)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
-    vim.keymap.set('n', '<leader>f', function()
-      vim.lsp.buf.format { async = true }
-    end, {})
-    -- also K for showing the definition of the type at cursor (K again to go inside)
-    -- standard mappings: https://neovim.io/doc/user/lsp
-  end
+			-- useful keymappings
+			vim.keymap.set("n", "]g", vim.diagnostic.goto_next)
+			vim.keymap.set("n", "[g", vim.diagnostic.goto_prev)
+			vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+			vim.keymap.set("n", "<leader>f", function()
+				vim.lsp.buf.format({ async = true })
+			end, {})
+			-- also K for showing the definition of the type at cursor (K again to go inside)
+			-- standard mappings: https://neovim.io/doc/user/lsp
+		end,
+	},
+  -- https://github.com/pmizio/typescript-tools.nvim
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
+	},
 }
